@@ -13,6 +13,9 @@ public class Constants {
     }
 
     public static class Player {
+
+        private Player() {}
+
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
         public static final int JUMP = 2;
@@ -30,6 +33,7 @@ public class Constants {
                 case Player.RUNNING -> 6;
                 case Player.HIT -> 4;
                 case Player.JUMP, Player.ATTACK_1, Player.ATTACK_JUMP_1, Player.ATTACK_JUMP_2 -> 3;
+                case Player.FALL -> 2;
                 case Player.GROUND -> 2;
                 default -> 1;
             };

@@ -18,7 +18,7 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
 
 //        System.out.println("mouse clicked " + e);
-        gamePanel.setRectPosition(e.getX(), e.getY());
+        gamePanel.getGame().getPlayer().setRectPosition(e.getX(), e.getY());
 
     }
 

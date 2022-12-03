@@ -5,8 +5,6 @@ import ro.comanitza.platformer.core.GamePanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import static ro.comanitza.platformer.util.Constants.Directions.*;
-
 public class KeyboardInputs implements KeyListener {
 
     private final GamePanel gamePanel;
@@ -26,30 +24,12 @@ public class KeyboardInputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-//        System.out.println("key pressed: " + e);
-
         switch (e.getKeyCode()) {
-
-            case KeyEvent.VK_W:
-//                System.out.println("UP");
-//                gamePanel.changeYDelta(-5);
-                gamePanel.setDirection(UP);
-                break;
-            case KeyEvent.VK_A:
-//                System.out.println("LEFT");
-//                gamePanel.changeXDelta(-5);
-                gamePanel.setDirection(LEFT);
-                break;
-            case KeyEvent.VK_S:
-//                System.out.println("DOWN");
-//                gamePanel.changeYDelta(5);
-                gamePanel.setDirection(DOWN);
-                break;
-            case KeyEvent.VK_D:
-//                System.out.println("RIGHT");
-//                gamePanel.changeXDelta(5);
-                gamePanel.setDirection(RIGHT);
-                break;
+            case KeyEvent.VK_W -> gamePanel.getGame().getPlayer().setUp(true);
+            case KeyEvent.VK_A -> gamePanel.getGame().getPlayer().setLeft(true);
+            case KeyEvent.VK_S -> gamePanel.getGame().getPlayer().setDown(true);
+            case KeyEvent.VK_D -> gamePanel.getGame().getPlayer().setRight(true);
+            case KeyEvent.VK_J -> gamePanel.getGame().getPlayer().setAttacking(true);
         }
     }
 
@@ -57,7 +37,11 @@ public class KeyboardInputs implements KeyListener {
     public void keyReleased(KeyEvent e) {
 
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D -> gamePanel.setMoving(false);
+            case KeyEvent.VK_W -> gamePanel.getGame().getPlayer().setUp(false);
+            case KeyEvent.VK_A -> gamePanel.getGame().getPlayer().setLeft(false);
+            case KeyEvent.VK_S -> gamePanel.getGame().getPlayer().setDown(false);
+            case KeyEvent.VK_D -> gamePanel.getGame().getPlayer().setRight(false);
+            case KeyEvent.VK_J -> gamePanel.getGame().getPlayer().setAttacking(false);
         }
     }
 }
