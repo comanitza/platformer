@@ -1,5 +1,7 @@
 package ro.comanitza.platformer.entities;
 
+import ro.comanitza.platformer.util.LoadSave;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -52,8 +54,8 @@ public class Player extends Entity {
 
     private void loadAnimations() {
 
-        try (InputStream is = getClass().getResourceAsStream("/player_sprites.png")) {
-            BufferedImage bufferedImage = ImageIO.read(is);
+
+            BufferedImage bufferedImage = LoadSave.getPlayerAtlas();
 
             animations = new BufferedImage[9][6];
 
@@ -62,10 +64,6 @@ public class Player extends Entity {
                     animations[j][i] = bufferedImage.getSubimage(i * 64, j * 40, 64, 40);
                 }
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private void setAnimation () {

@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.core;
 
 import ro.comanitza.platformer.entities.Player;
+import ro.comanitza.platformer.levels.LevelManager;
 
 public class GameLoop implements Runnable {
 
@@ -9,15 +10,18 @@ public class GameLoop implements Runnable {
 
     private final GamePanel gamePanel;
     private final Player player;
+    private final LevelManager levelManager;
 
-    public GameLoop(final GamePanel gamePanel, final Player player) {
+    public GameLoop(final GamePanel gamePanel, final Player player, final LevelManager levelManager) {
 
         this.gamePanel = gamePanel;
         this.player = player;
+        this.levelManager = levelManager;
     }
 
     public void update() {
         player.update();
+        levelManager.update();
     }
 
     @Override
