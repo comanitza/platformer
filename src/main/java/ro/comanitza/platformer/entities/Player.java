@@ -1,6 +1,8 @@
 package ro.comanitza.platformer.entities;
 
+import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.util.LoadSave;
+import ro.comanitza.platformer.util.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,9 +32,15 @@ public class Player extends Entity {
 
     private double playerSpeed = 2d;
 
-    public Player(double x, double y) {
-        super(x, y);
+    private int[][] levelData;
 
+    private double xDrawOffset = 21d * Game.SCALE;
+    private double yDrawOffset = 4d * Game.SCALE;
+
+    public Player(double x, double y, int width, int height) {
+        super(x, y, width, height);
+
+        initHitBox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
         loadAnimations();
     }
 
@@ -40,16 +48,15 @@ public class Player extends Entity {
 
         updatePosition();
 
-
         setAnimation();
-
 
         updateAnimationTick();
     }
 
     public void render(Graphics g) {
 
-        g.drawImage(animations[playerAction][animationIndex], (int) x, (int) y, 256, 160, null);
+        g.drawImage(animations[playerAction][animationIndex], (int)(hitBox.x - xDrawOffset), (int)(hitBox.y - yDrawOffset), width, height, null);
+        drawHitBox(g);
     }
 
     private void loadAnimations() {
@@ -107,26 +114,31 @@ public class Player extends Entity {
 
         moving = false;
 
+        if (!left && !up && !right && !down) {
+            return;
+        }
+
+        double xSpeed = 0;
+        double ySpeed = 0;
+
         if (left && !right) {
-            x -= playerSpeed;
-
-            moving = true;
+            xSpeed -= playerSpeed;
         } else if (right && !left) {
-            x += playerSpeed;
-
-            moving = true;
+            xSpeed += playerSpeed;
         }
 
         if (up && !down) {
-            y -= playerSpeed;
-
-            moving = true;
+            ySpeed -= playerSpeed;
         } else if (down && !up) {
-            y += playerSpeed;
+            ySpeed += playerSpeed;
+        }
+
+        if (Utils.canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, levelData)) {
+            hitBox.x += xSpeed;
+            hitBox.y += ySpeed;
 
             moving = true;
         }
-
     }
 
     public void setRectPosition(final int x, final int y) {
@@ -173,5 +185,9 @@ public class Player extends Entity {
 
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
+    }
+
+    public void loadLevelData(int[][] levelData) {
+        this.levelData = levelData;
     }
 }

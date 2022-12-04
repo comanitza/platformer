@@ -23,8 +23,11 @@ public class Game {
     public static final int GAME_HEIGHT = TILES_IN_HEIGHT * TILES_SIZE;
 
     public Game () {
-        player = new Player(200, 200);
+
         levelManager = new LevelManager(this);
+
+        player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
+        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
         gamePanel = new GamePanel(this);
         window = new GameWindow(gamePanel);
