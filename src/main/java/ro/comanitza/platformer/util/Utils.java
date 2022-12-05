@@ -2,6 +2,8 @@ package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.core.Game;
 
+import java.awt.geom.Rectangle2D;
+
 public class Utils {
 
     public static boolean canMoveHere(double x, double y, double width, double height, int[][] levelData) {
@@ -53,5 +55,14 @@ public class Utils {
         int value = levelData[(int)yIndex][(int)xIndex];
 
         return value >= 0 && value <= 49 && value != 11;
+    }
+
+    public static boolean isEntityOnFloor(Rectangle2D.Double hitbox, int[][] levelData) {
+
+        if (isSolid(hitbox.x, hitbox.y + hitbox.height + 2, levelData)) {
+            return true;
+        }
+
+        return !isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 2, levelData);
     }
 }

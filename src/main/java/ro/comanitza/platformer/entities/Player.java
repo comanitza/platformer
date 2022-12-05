@@ -29,6 +29,17 @@ public class Player extends Entity {
     private boolean up;
     private boolean right;
     private boolean down;
+    private boolean jump;
+
+    /*
+     * jumping and gravity stuff
+     */
+    private double airSpeed = 0d;
+    private static final double gravity = 0.04d;
+    private final double jumpSpeed = -2.25 * Game.SCALE;
+    private final static double fallSpeedAfterCollision = 0.5d * Game.SCALE;
+
+    private boolean inAir;
 
     private double playerSpeed = 2d;
 
@@ -83,6 +94,15 @@ public class Player extends Entity {
             playerAction = IDLE;
         }
 
+        if (inAir) {
+
+            if (airSpeed > 0) {
+                playerAction = FALL;
+            } else {
+                playerAction = JUMP;
+            }
+        }
+
         if (attacking) {
             playerAction = ATTACK_1;
         }
@@ -114,30 +134,80 @@ public class Player extends Entity {
 
         moving = false;
 
-        if (!left && !up && !right && !down) {
+        if (!left && !right && !inAir) {
             return;
         }
 
-        double xSpeed = 0;
-        double ySpeed = 0;
+        if (jump) {
+            jump();
+        }
 
-        if (left && !right) {
+        double xSpeed = 0;
+
+        if (left) {
             xSpeed -= playerSpeed;
-        } else if (right && !left) {
+        }
+
+        if (right) {
             xSpeed += playerSpeed;
         }
 
-        if (up && !down) {
-            ySpeed -= playerSpeed;
-        } else if (down && !up) {
-            ySpeed += playerSpeed;
+        if (Utils.isEntityOnFloor(hitBox, levelData)) {
+
+            inAir = true;
         }
 
-        if (Utils.canMoveHere(hitBox.x + xSpeed, hitBox.y + ySpeed, hitBox.width, hitBox.height, levelData)) {
-            hitBox.x += xSpeed;
-            hitBox.y += ySpeed;
+        if (inAir) {
 
-            moving = true;
+            /*
+             * can move in air
+             */
+            if (Utils.canMoveHere(hitBox.x, hitBox.y + airSpeed, hitBox.width, hitBox.height, levelData)) {
+
+                hitBox.y += airSpeed;
+                airSpeed += gravity;
+
+                updateXPosition(xSpeed);
+            } else {
+
+                /*
+                 * we are in the air because we have air speed, and we hit something
+                 *
+                 * we probably hit the floor or roof
+                 */
+                if (airSpeed > 0) {
+                    inAir = false;
+                    airSpeed = 0;
+                }
+                
+                airSpeed = fallSpeedAfterCollision;
+                
+                updateXPosition(xSpeed);
+            }
+
+        } else {
+
+            updateXPosition(xSpeed);
+        }
+
+        moving = true;
+    }
+
+    private void jump() {
+
+        if (inAir) {
+            return;
+        }
+
+        inAir = true;
+        airSpeed = jumpSpeed;
+
+    }
+
+    private void updateXPosition(double xSpeed) {
+
+        if (Utils.canMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData)) {
+            hitBox.x += xSpeed;
         }
     }
 
@@ -189,5 +259,17 @@ public class Player extends Entity {
 
     public void loadLevelData(int[][] levelData) {
         this.levelData = levelData;
+
+        if (Utils.isEntityOnFloor(hitBox, levelData)) {
+            inAir = true;
+        }
+    }
+
+    public boolean isJump() {
+        return jump;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
     }
 }
