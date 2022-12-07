@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.core;
 
 import ro.comanitza.platformer.entities.Player;
+import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.levels.LevelManager;
 
 public class GameLoop implements Runnable {
@@ -20,8 +21,17 @@ public class GameLoop implements Runnable {
     }
 
     public void update() {
-        player.update();
-        levelManager.update();
+
+        switch (GameState.gameState) {
+            case PLAYING:
+                player.update();
+                levelManager.update();
+                break;
+            case MENU:
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

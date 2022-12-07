@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import static ro.comanitza.platformer.util.Constants.Game.*;
+
 public class LoadSave {
 
     private LoadSave() {}
@@ -35,7 +37,7 @@ public class LoadSave {
 
     public static int[][] getLevelData(final String levelPath) {
 
-        int[][] levelData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
+        int[][] levelData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
 
         BufferedImage img = LoadSave.getAtlas(levelPath);
 

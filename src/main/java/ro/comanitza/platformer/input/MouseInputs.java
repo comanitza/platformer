@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.input;
 
 import ro.comanitza.platformer.core.GamePanel;
+import ro.comanitza.platformer.gamestates.GameState;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -18,8 +19,13 @@ public class MouseInputs implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {
 
 //        System.out.println("mouse clicked " + e);
-        gamePanel.getGame().getPlayer().setRectPosition(e.getX(), e.getY());
+//        gamePanel.getGame().getPlayer().setRectPosition(e.getX(), e.getY());
 
+
+        switch (GameState.gameState) {
+            case MENU -> gamePanel.getGame().getMenu().mouseClicked(e);
+            case PLAYING -> gamePanel.getGame().getPlaying().mouseClicked(e);
+        }
     }
 
     @Override

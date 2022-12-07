@@ -11,6 +11,7 @@ import java.io.InputStream;
 
 import static ro.comanitza.platformer.util.Constants.Directions.*;
 import static ro.comanitza.platformer.util.Constants.Player.*;
+import static ro.comanitza.platformer.util.Constants.Game.*;
 
 public class Player extends Entity {
 
@@ -36,8 +37,8 @@ public class Player extends Entity {
      */
     private double airSpeed = 0d;
     private static final double gravity = 0.04d;
-    private final double jumpSpeed = -2.25 * Game.SCALE;
-    private final static double fallSpeedAfterCollision = 0.5d * Game.SCALE;
+    private final double jumpSpeed = -2.25 * SCALE;
+    private final static double fallSpeedAfterCollision = 0.5d * SCALE;
 
     private boolean inAir;
 
@@ -45,13 +46,13 @@ public class Player extends Entity {
 
     private int[][] levelData;
 
-    private double xDrawOffset = 21d * Game.SCALE;
-    private double yDrawOffset = 4d * Game.SCALE;
+    private double xDrawOffset = 21d * SCALE;
+    private double yDrawOffset = 4d * SCALE;
 
     public Player(double x, double y, int width, int height) {
         super(x, y, width, height);
 
-        initHitBox(x, y, 20 * Game.SCALE, 28 * Game.SCALE);
+        initHitBox(x, y, 20 * SCALE, 28 * SCALE);
         loadAnimations();
     }
 

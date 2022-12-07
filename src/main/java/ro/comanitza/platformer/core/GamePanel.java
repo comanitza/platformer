@@ -2,6 +2,7 @@ package ro.comanitza.platformer.core;
 
 import ro.comanitza.platformer.input.KeyboardInputs;
 import ro.comanitza.platformer.input.MouseInputs;
+import ro.comanitza.platformer.util.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class GamePanel extends JPanel {
     }
 
     public void setPanelSize() {
-        setPreferredSize(new Dimension(Game.GAME_WIDTH, Game.GAME_HEIGHT));
+        setPreferredSize(new Dimension(Constants.Game.GAME_WIDTH, Constants.Game.GAME_HEIGHT));
     }
 
     @Override

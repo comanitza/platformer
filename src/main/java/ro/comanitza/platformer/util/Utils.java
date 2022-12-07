@@ -4,6 +4,8 @@ import ro.comanitza.platformer.core.Game;
 
 import java.awt.geom.Rectangle2D;
 
+import static ro.comanitza.platformer.util.Constants.Game.*;
+
 public class Utils {
 
     public static boolean canMoveHere(double x, double y, double width, double height, int[][] levelData) {
@@ -41,16 +43,16 @@ public class Utils {
 
     private static boolean isSolid(double x, double y, int[][] levelData) {
 
-        if (x < 0 || x >= Game.GAME_WIDTH) {
+        if (x < 0 || x >= GAME_WIDTH) {
             return true;
         }
 
-        if (y < 0 || y >= Game.GAME_HEIGHT) {
+        if (y < 0 || y >= GAME_HEIGHT) {
             return true;
         }
 
-        double xIndex = x / Game.TILES_SIZE;
-        double yIndex = y / Game.TILES_SIZE;
+        double xIndex = x / TILES_SIZE;
+        double yIndex = y / TILES_SIZE;
 
         int value = levelData[(int)yIndex][(int)xIndex];
 

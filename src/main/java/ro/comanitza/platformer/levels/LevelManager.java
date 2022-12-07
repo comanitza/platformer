@@ -6,6 +6,8 @@ import ro.comanitza.platformer.util.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static ro.comanitza.platformer.util.Constants.Game.*;
+
 public class LevelManager {
 
     private final Game game;
@@ -39,10 +41,10 @@ public class LevelManager {
 
     public void render(final Graphics g) {
 
-        for (int i = 0; i < Game.TILES_IN_HEIGHT; i++) {
-            for (int j = 0; j < Game.TILES_IN_WIDTH; j++) {
+        for (int i = 0; i < TILES_IN_HEIGHT; i++) {
+            for (int j = 0; j < TILES_IN_WIDTH; j++) {
                 int index = levelOne.getSpriteIndex(j, i);
-                g.drawImage(outsideLevelAtlas[index], Game.TILES_SIZE * j, Game.TILES_SIZE * i, Game.TILES_SIZE, Game.TILES_SIZE, null);
+                g.drawImage(outsideLevelAtlas[index], TILES_SIZE * j, TILES_SIZE * i, TILES_SIZE, TILES_SIZE, null);
             }
         }
 

@@ -4,6 +4,18 @@ public class Constants {
 
     private Constants() {}
 
+    public static class Game {
+
+        public static final int TILES_DEFAULT_SIZE = 32;
+        public static final int TILES_IN_WIDTH = 26;
+        public static final int TILES_IN_HEIGHT = 14;
+        public static final double SCALE = 1.5d;
+        public static final int TILES_SIZE = (int)(TILES_DEFAULT_SIZE * SCALE);
+        public static final int GAME_WIDTH = TILES_IN_WIDTH * TILES_SIZE;
+        public static final int GAME_HEIGHT = TILES_IN_HEIGHT * TILES_SIZE;
+
+    }
+
     public static class Directions {
         public static final int STANDING_STILL = -1;
         public static final int LEFT = 0;
