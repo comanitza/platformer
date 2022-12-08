@@ -59,4 +59,12 @@ public class LoadSave {
 
         return levelData;
     }
+
+    public static BufferedImage getMenuAtlas() {
+        return getAtlas("/button_atlas.png");
+    }
+
+    public static BufferedImage getMenuBackground() {
+        return getAtlas("/menu_background.png");
+    }
 }

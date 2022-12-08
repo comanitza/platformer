@@ -24,6 +24,21 @@ public class Constants {
         public static final int DOWN = 3;
     }
 
+    public static class UI {
+        private UI() {}
+
+        public static class Buttons {
+            private Buttons() {}
+
+            public static final int DEFAULT_WIDTH = 140;
+            public static final int DEFAULT_HEIGHT = 56;
+
+            public static final int WIDTH = (int) (DEFAULT_WIDTH * Game.SCALE);
+            public static final int HEIGHT = (int) (DEFAULT_HEIGHT * Game.SCALE);
+
+        }
+    }
+
     public static class Player {
 
         private Player() {}

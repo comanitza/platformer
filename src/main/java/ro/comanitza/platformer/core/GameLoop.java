@@ -2,6 +2,7 @@ package ro.comanitza.platformer.core;
 
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.gamestates.GameState;
+import ro.comanitza.platformer.gamestates.Menu;
 import ro.comanitza.platformer.levels.LevelManager;
 
 public class GameLoop implements Runnable {
@@ -12,12 +13,14 @@ public class GameLoop implements Runnable {
     private final GamePanel gamePanel;
     private final Player player;
     private final LevelManager levelManager;
+    private final Menu menu;
 
-    public GameLoop(final GamePanel gamePanel, final Player player, final LevelManager levelManager) {
+    public GameLoop(final GamePanel gamePanel, final Player player, final LevelManager levelManager, final Menu menu) {
 
         this.gamePanel = gamePanel;
         this.player = player;
         this.levelManager = levelManager;
+        this.menu = menu;
     }
 
     public void update() {
@@ -28,7 +31,11 @@ public class GameLoop implements Runnable {
                 levelManager.update();
                 break;
             case MENU:
+                menu.update();
                 break;
+            case OPTION:
+            case QUIT:
+                System.exit(0);
             default:
                 break;
         }

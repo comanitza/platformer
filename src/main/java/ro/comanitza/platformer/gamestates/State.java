@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.gamestates;
 
 import ro.comanitza.platformer.core.Game;
+import ro.comanitza.platformer.ui.MenuButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -52,5 +53,10 @@ public abstract class State implements StateAware {
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public boolean isButtonPressed(MouseEvent e, MenuButton button) {
+
+        return button.getBounds().contains(e.getX(), e.getY());
     }
 }

@@ -51,7 +51,7 @@ public class Game {
 
     private void startGameLoop () {
 
-        new Thread(new GameLoop(gamePanel, playing.getPlayer(), playing.getLevelManager()), "game-loop-thread").start();
+        new Thread(new GameLoop(gamePanel, playing.getPlayer(), playing.getLevelManager(), menu), "game-loop-thread").start();
     }
 
 //    public Player getPlayer() {

@@ -42,7 +42,7 @@ public class Player extends Entity {
 
     private boolean inAir;
 
-    private double playerSpeed = 2d;
+    private double playerSpeed = 1d * SCALE;
 
     private int[][] levelData;
 
@@ -68,7 +68,7 @@ public class Player extends Entity {
     public void render(Graphics g) {
 
         g.drawImage(animations[playerAction][animationIndex], (int)(hitBox.x - xDrawOffset), (int)(hitBox.y - yDrawOffset), width, height, null);
-        drawHitBox(g);
+//        drawHitBox(g);
     }
 
     private void loadAnimations() {
