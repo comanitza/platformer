@@ -67,4 +67,12 @@ public class LoadSave {
     public static BufferedImage getMenuBackground() {
         return getAtlas("/menu_background.png");
     }
+
+    public static BufferedImage getPauseMenuBackground() {
+        return getAtlas("/pause_menu.png");
+    }
+
+    public static BufferedImage getSoundButtons() {
+        return getAtlas("/sound_button.png");
+    }
 }

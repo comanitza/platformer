@@ -3,6 +3,7 @@ package ro.comanitza.platformer.gamestates;
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
+import ro.comanitza.platformer.ui.PausedOverlay;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +16,9 @@ public class Playing extends State {
     private final Player player;
     private final LevelManager levelManager;
 
+    private boolean paused = true;
+    private final PausedOverlay pausedOverlay;
+
     public Playing(final Game game) {
         super(game);
 
@@ -22,18 +26,23 @@ public class Playing extends State {
 
         player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+
+        pausedOverlay = new PausedOverlay();
     }
 
     @Override
     public void update() {
         levelManager.update();
         player.update();
+        pausedOverlay.update();
     }
 
     @Override
     public void draw(Graphics g) {
         levelManager.render(g);
         player.render(g);
+
+        pausedOverlay.render(g);
     }
 
 
@@ -78,5 +87,37 @@ public class Playing extends State {
 
     public LevelManager getLevelManager() {
         return levelManager;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+        if (paused) {
+            pausedOverlay.mousePressed(e);
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+        if (paused) {
+            pausedOverlay.mouseReleased(e);
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+        if (paused) {
+            pausedOverlay.mouseMoved(e);
+        }
     }
 }

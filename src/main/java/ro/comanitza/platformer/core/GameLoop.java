@@ -1,9 +1,8 @@
 package ro.comanitza.platformer.core;
 
-import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.gamestates.Menu;
-import ro.comanitza.platformer.levels.LevelManager;
+import ro.comanitza.platformer.gamestates.Playing;
 
 public class GameLoop implements Runnable {
 
@@ -11,24 +10,22 @@ public class GameLoop implements Runnable {
     private final int UPS = 200;
 
     private final GamePanel gamePanel;
-    private final Player player;
-    private final LevelManager levelManager;
     private final Menu menu;
 
-    public GameLoop(final GamePanel gamePanel, final Player player, final LevelManager levelManager, final Menu menu) {
+    private final Playing playing;
+
+    public GameLoop(final GamePanel gamePanel, final Playing playing, final Menu menu) {
 
         this.gamePanel = gamePanel;
-        this.player = player;
-        this.levelManager = levelManager;
         this.menu = menu;
+        this.playing = playing;
     }
 
     public void update() {
 
         switch (GameState.gameState) {
             case PLAYING:
-                player.update();
-                levelManager.update();
+                playing.update();
                 break;
             case MENU:
                 menu.update();
