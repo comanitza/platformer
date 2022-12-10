@@ -44,6 +44,13 @@ public class Constants {
             public static final int SOUND_BUTTON_SIZE = (int)(42 * Game.SCALE);
 
         }
+
+        public static class UrmButtons {
+
+            public static int URM_DEFAULT_SIZE = 56;
+            public static int URM_SIZE = (int) (URM_DEFAULT_SIZE * Game.SCALE);
+
+        }
     }
 
     public static class Player {

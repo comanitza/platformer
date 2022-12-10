@@ -1,5 +1,7 @@
 package ro.comanitza.platformer.ui;
 
+import ro.comanitza.platformer.gamestates.GameState;
+import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
@@ -19,7 +21,13 @@ public class PausedOverlay {
     private final SoundButton musicButton;
     private final SoundButton sfxButton;
 
-    public PausedOverlay() {
+    private final UrmButton menuButton;
+    private final UrmButton replayButton;
+    private final UrmButton unpauseButton;
+
+    private final Playing playing;
+
+    public PausedOverlay(Playing playing) {
 
         backGroundImage = LoadSave.getPauseMenuBackground();
 
@@ -32,12 +40,21 @@ public class PausedOverlay {
         musicButton = new SoundButton((int)(450 * Constants.Game.SCALE), (int)(140 * Constants.Game.SCALE), Constants.UI.PauseButtons.SOUND_BUTTON_DEFAULT_SIZE, Constants.UI.PauseButtons.SOUND_BUTTON_DEFAULT_SIZE);
         sfxButton = new SoundButton((int)(450 * Constants.Game.SCALE), (int)(186 * Constants.Game.SCALE), Constants.UI.PauseButtons.SOUND_BUTTON_DEFAULT_SIZE, Constants.UI.PauseButtons.SOUND_BUTTON_DEFAULT_SIZE);
 
+        menuButton = new UrmButton((int)(313 * Constants.Game.SCALE), (int)(325 * Constants.Game.SCALE), Constants.UI.UrmButtons.URM_SIZE, Constants.UI.UrmButtons.URM_SIZE, 2);
+        replayButton = new UrmButton((int)(387 * Constants.Game.SCALE), (int)(325 * Constants.Game.SCALE), Constants.UI.UrmButtons.URM_SIZE, Constants.UI.UrmButtons.URM_SIZE, 1);
+        unpauseButton = new UrmButton((int)(462 * Constants.Game.SCALE), (int)(325 * Constants.Game.SCALE), Constants.UI.UrmButtons.URM_SIZE, Constants.UI.UrmButtons.URM_SIZE, 0);
+
+        this.playing = playing;
     }
 
     public void update() {
 
         musicButton.update();
         sfxButton.update();
+
+        menuButton.update();
+        replayButton.update();
+        unpauseButton.update();
     }
 
     public void render(Graphics g) {
@@ -46,6 +63,10 @@ public class PausedOverlay {
 
         musicButton.render(g);
         sfxButton.render(g);
+
+        menuButton.render(g);
+        replayButton.render(g);
+        unpauseButton.render(g);
     }
 
 
@@ -56,6 +77,12 @@ public class PausedOverlay {
             musicButton.setMousePressed(true);
         } else if (isButtonOver(e, sfxButton)) {
             sfxButton.setMousePressed(true);
+        } else if (isButtonOver(e, menuButton)) {
+            menuButton.setMousePressed(true);
+        } else if (isButtonOver(e, replayButton)) {
+            replayButton.setMousePressed(true);
+        } else if (isButtonOver(e, unpauseButton)) {
+            unpauseButton.setMousePressed(true);
         }
     }
 
@@ -72,10 +99,30 @@ public class PausedOverlay {
             if (sfxButton.isMousePressed()) {
                 sfxButton.setMuted(!sfxButton.isMuted());
             }
+        } else if (isButtonOver(e, menuButton)) {
+
+            if (menuButton.isMousePressed()) {
+                GameState.gameState = GameState.MENU;
+                playing.unpauseGame();
+            }
+        } else if (isButtonOver(e, replayButton)) {
+
+            if (replayButton.isMousePressed()) {
+                System.out.println("replay level");
+            }
+        } else if (isButtonOver(e, unpauseButton)) {
+
+            if (unpauseButton.isMousePressed()) {
+                playing.unpauseGame();
+            }
         }
 
         musicButton.resetBooleans();
         sfxButton.resetBooleans();
+
+        menuButton.resetBooleans();
+        unpauseButton.resetBooleans();
+        replayButton.resetBooleans();
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -83,10 +130,20 @@ public class PausedOverlay {
         musicButton.setMouseOver(false);
         sfxButton.setMouseOver(false);
 
+        menuButton.setMouseOver(false);
+        unpauseButton.setMouseOver(false);
+        replayButton.setMouseOver(false);
+
         if (isButtonOver(e, musicButton)) {
             musicButton.setMouseOver(true);
         } else if (isButtonOver(e, sfxButton)) {
             sfxButton.setMouseOver(true);
+        } else if (isButtonOver(e, menuButton)) {
+            menuButton.setMouseOver(true);
+        } else if (isButtonOver(e, unpauseButton)) {
+            unpauseButton.setMouseOver(true);
+        } else if (isButtonOver(e, replayButton)) {
+            replayButton.setMouseOver(true);
         }
     }
 

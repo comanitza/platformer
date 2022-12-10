@@ -75,4 +75,8 @@ public class LoadSave {
     public static BufferedImage getSoundButtons() {
         return getAtlas("/sound_button.png");
     }
+
+    public static BufferedImage getUrmButtonsAtlas() {
+        return getAtlas("/urm_buttons.png");
+    }
 }

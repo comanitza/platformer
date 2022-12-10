@@ -16,7 +16,7 @@ public class Playing extends State {
     private final Player player;
     private final LevelManager levelManager;
 
-    private boolean paused = true;
+    private boolean paused;
     private final PausedOverlay pausedOverlay;
 
     public Playing(final Game game) {
@@ -27,14 +27,18 @@ public class Playing extends State {
         player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
-        pausedOverlay = new PausedOverlay();
+        pausedOverlay = new PausedOverlay(this);
     }
 
     @Override
     public void update() {
-        levelManager.update();
-        player.update();
-        pausedOverlay.update();
+
+        if (paused) {
+            pausedOverlay.update();
+        } else {
+            levelManager.update();
+            player.update();
+        }
     }
 
     @Override
@@ -42,7 +46,9 @@ public class Playing extends State {
         levelManager.render(g);
         player.render(g);
 
-        pausedOverlay.render(g);
+        if (paused) {
+            pausedOverlay.render(g);
+        }
     }
 
 
@@ -64,7 +70,7 @@ public class Playing extends State {
             case KeyEvent.VK_D -> player.setRight(true);
             case KeyEvent.VK_J -> player.setAttacking(true);
             case KeyEvent.VK_L -> player.setJump(true);
-            case KeyEvent.VK_ESCAPE -> GameState.gameState = GameState.MENU;
+            case KeyEvent.VK_ESCAPE -> paused = !paused;
         }
     }
 
@@ -119,5 +125,9 @@ public class Playing extends State {
         if (paused) {
             pausedOverlay.mouseMoved(e);
         }
+    }
+
+    public void unpauseGame () {
+        paused = false;
     }
 }
