@@ -37,9 +37,8 @@ public class LoadSave {
 
     public static int[][] getLevelData(final String levelPath) {
 
-        int[][] levelData = new int[TILES_IN_HEIGHT][TILES_IN_WIDTH];
-
         BufferedImage img = LoadSave.getAtlas(levelPath);
+        int[][] levelData = new int[img.getHeight()][img.getWidth()];
 
         for (int i = 0; i < img.getHeight(); i++) {
 

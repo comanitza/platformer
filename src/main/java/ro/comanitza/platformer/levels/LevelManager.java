@@ -20,7 +20,7 @@ public class LevelManager {
 
         outsideLevelAtlas = importOutsideLevelSprites(); //
 
-        levelOne = new Level(LoadSave.getLevelData("/level_one_data.png"));
+        levelOne = new Level(LoadSave.getLevelData("/level_one_data_long.png"));
     }
 
     private BufferedImage[] importOutsideLevelSprites() {
@@ -39,12 +39,12 @@ public class LevelManager {
         return arr;
     }
 
-    public void render(final Graphics g) {
+    public void render(final Graphics g, final int levelOffset) {
 
         for (int i = 0; i < TILES_IN_HEIGHT; i++) {
-            for (int j = 0; j < TILES_IN_WIDTH; j++) {
+            for (int j = 0; j < getCurrentLevel().getLevelData()[0].length; j++) {
                 int index = levelOne.getSpriteIndex(j, i);
-                g.drawImage(outsideLevelAtlas[index], TILES_SIZE * j, TILES_SIZE * i, TILES_SIZE, TILES_SIZE, null);
+                g.drawImage(outsideLevelAtlas[index], (TILES_SIZE * j) - levelOffset, TILES_SIZE * i, TILES_SIZE, TILES_SIZE, null);
             }
         }
 

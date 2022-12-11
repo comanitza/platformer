@@ -4,6 +4,7 @@ import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.PausedOverlay;
+import ro.comanitza.platformer.util.Constants;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -19,6 +20,13 @@ public class Playing extends State {
     private boolean paused;
     private final PausedOverlay pausedOverlay;
 
+    private int levelOffset;
+    private int leftBorder = (int)(0.2 * GAME_WIDTH);
+    private int rightBorder = (int)(0.8 * GAME_WIDTH);
+    private final int levelTilesWidth;//getLevelManager().getCurrentLevel().getLevelData()[0].length;
+    private final int maxTilesOffset;
+    private final int maxTilesOffsetInPixels;
+
     public Playing(final Game game) {
         super(game);
 
@@ -28,6 +36,11 @@ public class Playing extends State {
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
         pausedOverlay = new PausedOverlay(this);
+
+        levelTilesWidth = getLevelManager().getCurrentLevel().getLevelData()[0].length;
+
+        maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
+        maxTilesOffsetInPixels = maxTilesOffset * TILES_SIZE;
     }
 
     @Override
@@ -38,15 +51,40 @@ public class Playing extends State {
         } else {
             levelManager.update();
             player.update();
+            checkCloseToBorder();
+        }
+    }
+
+    private void checkCloseToBorder() {
+
+        int playerX = (int) player.getHitBox().x;
+        int diff = playerX - levelOffset;
+
+        if (diff > rightBorder) {
+
+            levelOffset += diff - rightBorder;
+        } else if (diff < leftBorder) {
+            levelOffset += diff - leftBorder;
+        }
+
+        if (levelOffset > maxTilesOffsetInPixels) {
+            levelOffset = maxTilesOffsetInPixels;
+        }
+
+        if (levelOffset < 0) {
+            levelOffset = 0;
         }
     }
 
     @Override
     public void draw(Graphics g) {
-        levelManager.render(g);
-        player.render(g);
+        levelManager.render(g, levelOffset);
+        player.render(g, levelOffset);
 
         if (paused) {
+            g.setColor(new Color(0, 0, 0, 95));
+            g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
             pausedOverlay.render(g);
         }
     }

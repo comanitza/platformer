@@ -43,7 +43,9 @@ public class Utils {
 
     private static boolean isSolid(double x, double y, int[][] levelData) {
 
-        if (x < 0 || x >= GAME_WIDTH) {
+        int levelWidth = levelData[0].length * TILES_SIZE;
+
+        if (x < 0 || x >= levelWidth) {
             return true;
         }
 
