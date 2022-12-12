@@ -5,10 +5,13 @@ import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.PausedOverlay;
 import ro.comanitza.platformer.util.Constants;
+import ro.comanitza.platformer.util.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import static ro.comanitza.platformer.util.Constants.Game.*;
 
@@ -27,6 +30,12 @@ public class Playing extends State {
     private final int maxTilesOffset;
     private final int maxTilesOffsetInPixels;
 
+    private final BufferedImage backGroundImage = LoadSave.getPlayingBackground();
+    private final BufferedImage bigCloudsImage = LoadSave.getBigClouds();
+    private final BufferedImage smallCloudImage = LoadSave.getSmallClouds();
+
+    private final int[] smallCloudsYPositions = new int[8];
+
     public Playing(final Game game) {
         super(game);
 
@@ -41,6 +50,12 @@ public class Playing extends State {
 
         maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
         maxTilesOffsetInPixels = maxTilesOffset * TILES_SIZE;
+
+        Random rand = new Random();
+
+        for (int i = 0; i < smallCloudsYPositions.length; i++) {
+            smallCloudsYPositions[i] = (int)(80 * Constants.Game.SCALE + rand.nextInt((int)(140 * SCALE)));
+        }
     }
 
     @Override
@@ -78,6 +93,17 @@ public class Playing extends State {
 
     @Override
     public void draw(Graphics g) {
+
+        g.drawImage(backGroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
+
+        for (int i = 0; i < 3; i++) {
+            g.drawImage(bigCloudsImage, i * Constants.Environment.BIG_CLOUD_WIDTH - (int)(levelOffset * 0.4), (int) (204 * SCALE), Constants.Environment.BIG_CLOUD_WIDTH, Constants.Environment.BIG_CLOUD_HEIGHT, null);
+        }
+
+        for (int i = 0; i < smallCloudsYPositions.length; i++) {
+            g.drawImage(smallCloudImage, Constants.Environment.SMALL_CLOUD_WIDTH * 4 * i - (int)(levelOffset * 0.9), smallCloudsYPositions[i], Constants.Environment.SMALL_CLOUD_WIDTH, Constants.Environment.SMALL_CLOUD_HEIGHT, null);
+        }
+
         levelManager.render(g, levelOffset);
         player.render(g, levelOffset);
 

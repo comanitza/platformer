@@ -78,4 +78,16 @@ public class LoadSave {
     public static BufferedImage getUrmButtonsAtlas() {
         return getAtlas("/urm_buttons.png");
     }
+
+    public static BufferedImage getPlayingBackground() {
+        return getAtlas("/playing_bg_img.png");
+    }
+
+    public static BufferedImage getBigClouds() {
+        return getAtlas("/big_clouds.png");
+    }
+
+    public static BufferedImage getSmallClouds() {
+        return getAtlas("/small_clouds.png");
+    }
 }
