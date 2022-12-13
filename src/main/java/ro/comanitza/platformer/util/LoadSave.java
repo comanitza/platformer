@@ -1,11 +1,14 @@
 package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.core.Game;
+import ro.comanitza.platformer.entities.Crabby;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static ro.comanitza.platformer.util.Constants.Game.*;
 
@@ -33,6 +36,29 @@ public class LoadSave {
     public static BufferedImage getLevelAtlas() {
 
         return getAtlas("/outside_sprites.png");
+    }
+
+    public static List<Crabby> getCrabbies(final String levelPath) {
+
+        BufferedImage img = LoadSave.getAtlas(levelPath);
+
+        List<Crabby> crabbies = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getGreen();
+
+                if (colorValue == Constants.Enemy.CRABBY) {
+                    crabbies.add(new Crabby(j * TILES_SIZE, i * TILES_SIZE));
+                }
+            }
+        }
+
+        return crabbies;
     }
 
     public static int[][] getLevelData(final String levelPath) {
@@ -89,5 +115,9 @@ public class LoadSave {
 
     public static BufferedImage getSmallClouds() {
         return getAtlas("/small_clouds.png");
+    }
+
+    public static BufferedImage getCrabbyEnemy() {
+        return getAtlas("/crabby_sprite.png");
     }
 }

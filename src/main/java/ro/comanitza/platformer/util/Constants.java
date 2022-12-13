@@ -4,6 +4,41 @@ public class Constants {
 
     private Constants() {}
 
+    public static class Enemy {
+
+        public static final int CRABBY = 0;
+
+        public static final int IDLE = 0;
+        public static final int RUNNING = 1;
+        public static final int ATTACK = 2;
+        public static final int HIT = 3;
+        public static final int DEAD = 4;
+
+        public static final int CRABBY_WIDTH_DEFAULT = 72;
+        public static final int CRABBY_HEIGHT_DEFAULT = 32;
+
+        public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
+        public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
+
+        public static int getSpriteAmount(int enemyType, int enemyAction) {
+
+            switch (enemyType) {
+                case CRABBY:
+                default:
+                    return switch (enemyAction) {
+                        case IDLE -> 9;
+                        case RUNNING -> 6;
+                        case ATTACK -> 7;
+                        case HIT -> 4;
+                        case DEAD -> 5;
+                        default -> 1;
+                    };
+            }
+
+
+        }
+    }
+
     public static class Game {
 
         public static final int TILES_DEFAULT_SIZE = 32;

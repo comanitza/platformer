@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.gamestates;
 
 import ro.comanitza.platformer.core.Game;
+import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.PausedOverlay;
@@ -19,6 +20,7 @@ public class Playing extends State {
 
     private final Player player;
     private final LevelManager levelManager;
+    private final EnemyManager enemyManager;
 
     private boolean paused;
     private final PausedOverlay pausedOverlay;
@@ -40,6 +42,7 @@ public class Playing extends State {
         super(game);
 
         levelManager = new LevelManager(game);
+        enemyManager = new EnemyManager(this);
 
         player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
@@ -66,6 +69,7 @@ public class Playing extends State {
         } else {
             levelManager.update();
             player.update();
+            enemyManager.update();
             checkCloseToBorder();
         }
     }
@@ -106,6 +110,7 @@ public class Playing extends State {
 
         levelManager.render(g, levelOffset);
         player.render(g, levelOffset);
+        enemyManager.render(g, levelOffset);
 
         if (paused) {
             g.setColor(new Color(0, 0, 0, 95));
