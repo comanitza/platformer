@@ -69,4 +69,8 @@ public class Utils {
 
         return !isSolid(hitbox.x + hitbox.width, hitbox.y + hitbox.height + 2, levelData);
     }
+
+    public static boolean isFloor(Rectangle2D.Double hitBox, double speed, int[][] levelData) {
+        return isSolid(hitBox.x + speed, hitBox.y + hitBox.height + 1, levelData);
+    }
 }

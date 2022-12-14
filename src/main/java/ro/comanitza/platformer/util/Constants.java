@@ -20,6 +20,9 @@ public class Constants {
         public static final int CRABBY_WIDTH = (int) (CRABBY_WIDTH_DEFAULT * Game.SCALE);
         public static final int CRABBY_HEIGHT = (int) (CRABBY_HEIGHT_DEFAULT * Game.SCALE);
 
+        public static final int CRRABY_X_OFFSET = (int)(26 * Game.SCALE);
+        public static final int CRRABY_Y_OFFSET = (int)(9 * Game.SCALE);
+
         public static int getSpriteAmount(int enemyType, int enemyAction) {
 
             switch (enemyType) {
@@ -44,7 +47,7 @@ public class Constants {
         public static final int TILES_DEFAULT_SIZE = 32;
         public static final int TILES_IN_WIDTH = 26;
         public static final int TILES_IN_HEIGHT = 14;
-        public static final double SCALE = 1.5d;
+        public static final double SCALE = 2d;
         public static final int TILES_SIZE = (int)(TILES_DEFAULT_SIZE * SCALE);
         public static final int GAME_WIDTH = TILES_IN_WIDTH * TILES_SIZE;
         public static final int GAME_HEIGHT = TILES_IN_HEIGHT * TILES_SIZE;
@@ -91,7 +94,7 @@ public class Constants {
         public static class PauseButtons {
 
             public static final int SOUND_BUTTON_DEFAULT_SIZE = 42;
-            public static final int SOUND_BUTTON_SIZE = (int)(42 * Game.SCALE);
+            public static final int SOUND_BUTTON_SIZE = (int)(SOUND_BUTTON_DEFAULT_SIZE * Game.SCALE);
 
         }
 
@@ -99,8 +102,9 @@ public class Constants {
 
             public static int URM_DEFAULT_SIZE = 56;
             public static int URM_SIZE = (int) (URM_DEFAULT_SIZE * Game.SCALE);
-
         }
+
+
     }
 
     public static class Player {

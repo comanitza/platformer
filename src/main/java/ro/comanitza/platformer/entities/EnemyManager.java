@@ -4,10 +4,12 @@ import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
+
+import static ro.comanitza.platformer.util.Constants.Enemy.CRRABY_X_OFFSET;
+import static ro.comanitza.platformer.util.Constants.Enemy.CRRABY_Y_OFFSET;
 
 public class EnemyManager {
 
@@ -21,7 +23,7 @@ public class EnemyManager {
 
         crabbyImages = loadCrabbyImages();
 
-        crabbies = LoadSave.getCrabbies("/level1_with_crabby.png");
+        crabbies = LoadSave.getCrabbies("/level_1_v4.png");
     }
 
     private BufferedImage[][] loadCrabbyImages() {
@@ -39,10 +41,10 @@ public class EnemyManager {
         return imgs;
     }
 
-    public void update() {
+    public void update(int[][] levelData) {
 
         for(Crabby c: crabbies) {
-            c.update();
+            c.update(levelData);
         }
     }
 
@@ -50,7 +52,10 @@ public class EnemyManager {
 
         for(Crabby c: crabbies) {
 
-            g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)c.hitBox.x) - levelOffset, (int)c.hitBox.y, Constants.Enemy.CRABBY_WIDTH, Constants.Enemy.CRABBY_HEIGHT, null);
+            g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)(c.hitBox.x - CRRABY_X_OFFSET)) - levelOffset, (int)(c.hitBox.y - CRRABY_Y_OFFSET), Constants.Enemy.CRABBY_WIDTH, Constants.Enemy.CRABBY_HEIGHT, null);
+
+            g.setColor(Color.MAGENTA);
+            g.drawRect((int)c.getHitBox().x - levelOffset, (int)c.getHitBox().y, (int)c.getHitBox().width, (int)c.getHitBox().height);
         }
     }
 

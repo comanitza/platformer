@@ -26,13 +26,13 @@ public abstract class Entity {
         this.hitBox = new Rectangle2D.Double(x, y, width, height);
     }
 
-    protected void drawHitBox(Graphics g) {
-
-        g.setColor(Color.PINK);
-        g.drawRect((int)hitBox.x, (int)hitBox.y, (int)hitBox.width, (int)hitBox.height);
-    }
-
     public Rectangle2D.Double getHitBox() {
         return hitBox;
+    }
+
+    protected void drawHitBox(Graphics g, int levelOffset) {
+
+        g.setColor(Color.PINK);
+        g.drawRect((int)hitBox.x - levelOffset, (int)hitBox.y, (int)hitBox.width, (int)hitBox.height);
     }
 }

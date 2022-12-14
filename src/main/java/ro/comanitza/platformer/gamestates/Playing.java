@@ -69,7 +69,7 @@ public class Playing extends State {
         } else {
             levelManager.update();
             player.update();
-            enemyManager.update();
+            enemyManager.update(levelManager.getCurrentLevel().getLevelData());
             checkCloseToBorder();
         }
     }
