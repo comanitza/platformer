@@ -44,7 +44,7 @@ public class EnemyManager {
     public void update(int[][] levelData) {
 
         for(Crabby c: crabbies) {
-            c.update(levelData);
+            c.update(levelData, playing.getPlayer());
         }
     }
 

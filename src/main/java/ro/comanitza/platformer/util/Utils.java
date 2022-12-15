@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.core.Game;
+import ro.comanitza.platformer.entities.Player;
 
 import java.awt.geom.Rectangle2D;
 
@@ -56,9 +57,7 @@ public class Utils {
         double xIndex = x / TILES_SIZE;
         double yIndex = y / TILES_SIZE;
 
-        int value = levelData[(int)yIndex][(int)xIndex];
-
-        return value >= 0 && value <= 49 && value != 11;
+        return isTileSolid(levelData, (int) xIndex, (int)yIndex);
     }
 
     public static boolean isEntityOnFloor(Rectangle2D.Double hitbox, int[][] levelData) {
@@ -72,5 +71,51 @@ public class Utils {
 
     public static boolean isFloor(Rectangle2D.Double hitBox, double speed, int[][] levelData) {
         return isSolid(hitBox.x + speed, hitBox.y + hitBox.height + 1, levelData);
+    }
+
+    public static boolean isTileSolid(int[][] levelData, int xTile, int yTile) {
+
+        int value = levelData[yTile][xTile];
+
+        return value >= 0 && value <= 49 && value != 11;
+    }
+
+    public static boolean isSightClear(int[][] levelData, Rectangle2D.Double first, Rectangle2D.Double second, int tileY) {
+
+        int firstTileX = (int)(first.x / TILES_SIZE);
+        int secondTileX = (int)(second.x / TILES_SIZE);
+
+        if (firstTileX == secondTileX) {
+            return true;
+        }
+
+        if (firstTileX > secondTileX) {
+
+            for (int i = secondTileX; i < firstTileX; i++) {
+
+                if (isTileSolid(levelData, i, tileY)) {
+                    return false;
+                }
+
+                if (!isTileSolid(levelData, i, tileY + 1)) {
+                    return false;
+                }
+            }
+
+        } else {
+
+            for (int i = firstTileX; i < secondTileX; i++) {
+
+                if (isTileSolid(levelData, i, tileY)) {
+                    return false;
+                }
+
+                if (!isTileSolid(levelData, i, tileY + 1)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

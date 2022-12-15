@@ -1,6 +1,5 @@
 package ro.comanitza.platformer.util;
 
-import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.Crabby;
 
 import javax.imageio.ImageIO;
