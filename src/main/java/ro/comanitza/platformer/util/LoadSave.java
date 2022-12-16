@@ -119,4 +119,8 @@ public class LoadSave {
     public static BufferedImage getCrabbyEnemy() {
         return getAtlas("/crabby_sprite.png");
     }
+
+    public static BufferedImage getStatusBar() {
+        return getAtlas("/health_power_bar.png");
+    }
 }

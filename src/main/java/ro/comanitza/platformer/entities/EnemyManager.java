@@ -5,6 +5,7 @@ import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class EnemyManager {
 
         crabbyImages = loadCrabbyImages();
 
-        crabbies = LoadSave.getCrabbies("/level_1_v4.png");
+        crabbies = LoadSave.getCrabbies("/level_one_data_long.png");
     }
 
     private BufferedImage[][] loadCrabbyImages() {
@@ -44,6 +45,11 @@ public class EnemyManager {
     public void update(int[][] levelData) {
 
         for(Crabby c: crabbies) {
+
+            if (!c.isActive()) {
+                continue;
+            }
+
             c.update(levelData, playing.getPlayer());
         }
     }
@@ -52,11 +58,46 @@ public class EnemyManager {
 
         for(Crabby c: crabbies) {
 
-            g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)(c.hitBox.x - CRRABY_X_OFFSET)) - levelOffset, (int)(c.hitBox.y - CRRABY_Y_OFFSET), Constants.Enemy.CRABBY_WIDTH, Constants.Enemy.CRABBY_HEIGHT, null);
+            if (!c.isActive()) {
+                continue;
+            }
 
+            g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)(c.hitBox.x - CRRABY_X_OFFSET)) - levelOffset + c.flipX(), (int)(c.hitBox.y - CRRABY_Y_OFFSET), Constants.Enemy.CRABBY_WIDTH * c.flipW(), Constants.Enemy.CRABBY_HEIGHT, null);
+
+
+
+            /*
+             * draw hitbox
+             */
             g.setColor(Color.MAGENTA);
             g.drawRect((int)c.getHitBox().x - levelOffset, (int)c.getHitBox().y, (int)c.getHitBox().width, (int)c.getHitBox().height);
+
+            g.setColor(Color.GREEN);
+            g.drawRect((int)(c.getAttackBox().x) - levelOffset, (int)c.getAttackBox().y, (int)c.getAttackBox().width, (int)c.getAttackBox().height);
         }
     }
 
+    public void checkEnemyHit(Rectangle2D.Double playerAttackBox) {
+
+        for (Crabby c: crabbies) {
+
+            if (!c.isActive()) {
+                continue;
+            }
+
+            if (playerAttackBox.intersects(c.getHitBox())) {
+
+                c.hurt(10);
+                return;
+            }
+        }
+
+    }
+
+    public void resetAllEnemies() {
+
+        for (Crabby c: crabbies) {
+            c.reset();
+        }
+    }
 }

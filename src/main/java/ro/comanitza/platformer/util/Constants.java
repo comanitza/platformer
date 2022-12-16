@@ -23,6 +23,23 @@ public class Constants {
         public static final int CRRABY_X_OFFSET = (int)(26 * Game.SCALE);
         public static final int CRRABY_Y_OFFSET = (int)(9 * Game.SCALE);
 
+        public static int getMaxEnemyHealth (int enemyType) {
+
+            return switch (enemyType) {
+                case CRABBY -> 10;
+                default -> 1;
+            };
+        }
+
+        public static int getMaxEnemyDamage (int enemyType) {
+
+            return switch (enemyType) {
+                case CRABBY -> 15;
+                default -> 0;
+            };
+        }
+
+
         public static int getSpriteAmount(int enemyType, int enemyAction) {
 
             switch (enemyType) {
@@ -37,8 +54,6 @@ public class Constants {
                         default -> 1;
                     };
             }
-
-
         }
     }
 
@@ -115,11 +130,9 @@ public class Constants {
         public static final int RUNNING = 1;
         public static final int JUMP = 2;
         public static final int FALL = 3;
-        public static final int GROUND = 4;
         public static final int HIT = 5;
-        public static final int ATTACK_1 = 6;
-        public static final int ATTACK_JUMP_1 = 7;
-        public static final int ATTACK_JUMP_2 = 8;
+        public static final int ATTACK_1 = 4;
+        public static final int DEAD = 6;
 
         public static int getSpriteAmount(final int playerAction) {
 
@@ -127,9 +140,9 @@ public class Constants {
                 case Player.IDLE -> 5;
                 case Player.RUNNING -> 6;
                 case Player.HIT -> 4;
-                case Player.JUMP, Player.ATTACK_1, Player.ATTACK_JUMP_1, Player.ATTACK_JUMP_2 -> 3;
-                case Player.FALL -> 2;
-                case Player.GROUND -> 2;
+                case Player.JUMP, Player.ATTACK_1  -> 3;
+                case Player.FALL -> 1;
+                case Player.DEAD -> 8;
                 default -> 1;
             };
 

@@ -1,5 +1,7 @@
 package ro.comanitza.platformer.entities;
 
+import ro.comanitza.platformer.util.Constants;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 

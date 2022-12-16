@@ -20,7 +20,7 @@ public class LevelManager {
 
         outsideLevelAtlas = importOutsideLevelSprites(); //
 
-        levelOne = new Level(LoadSave.getLevelData("/level_1_v4.png"));
+        levelOne = new Level(LoadSave.getLevelData("/level_one_data_long.png"));
     }
 
     private BufferedImage[] importOutsideLevelSprites() {

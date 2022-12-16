@@ -4,6 +4,7 @@ import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
+import ro.comanitza.platformer.ui.GameOverOverlay;
 import ro.comanitza.platformer.ui.PausedOverlay;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
@@ -37,6 +38,9 @@ public class Playing extends State {
     private final BufferedImage smallCloudImage = LoadSave.getSmallClouds();
 
     private final int[] smallCloudsYPositions = new int[8];
+    private boolean gameOver;
+
+    private final GameOverOverlay gameOverOverlay;
 
     public Playing(final Game game) {
         super(game);
@@ -44,7 +48,7 @@ public class Playing extends State {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
 
-        player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE));
+        player = new Player(200, 200, (int)(64 * SCALE), (int)(40 * SCALE), this);
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
         pausedOverlay = new PausedOverlay(this);
@@ -59,10 +63,16 @@ public class Playing extends State {
         for (int i = 0; i < smallCloudsYPositions.length; i++) {
             smallCloudsYPositions[i] = (int)(80 * Constants.Game.SCALE + rand.nextInt((int)(140 * SCALE)));
         }
+
+        gameOverOverlay = new GameOverOverlay(this);
     }
 
     @Override
     public void update() {
+
+        if (gameOver) {
+            return;
+        }
 
         if (paused) {
             pausedOverlay.update();
@@ -113,10 +123,12 @@ public class Playing extends State {
         enemyManager.render(g, levelOffset);
 
         if (paused) {
-            g.setColor(new Color(0, 0, 0, 95));
+            g.setColor(new Color(0, 0, 0, 120));
             g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
             pausedOverlay.render(g);
+        } else if (gameOver) {
+            gameOverOverlay.render(g);
         }
     }
 
@@ -132,13 +144,19 @@ public class Playing extends State {
     @Override
     public void keyPressed(KeyEvent e) {
 
+        if (gameOver) {
+            gameOverOverlay.keyPressed(e);
+
+            return;
+        }
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> player.setUp(true);
             case KeyEvent.VK_A -> player.setLeft(true);
             case KeyEvent.VK_S -> player.setDown(true);
             case KeyEvent.VK_D -> player.setRight(true);
-            case KeyEvent.VK_J -> player.setAttacking(true);
-            case KeyEvent.VK_L -> player.setJump(true);
+            case KeyEvent.VK_J -> player.setJump(true);
+            case KeyEvent.VK_K -> player.setAttacking(true);
             case KeyEvent.VK_ESCAPE -> paused = !paused;
         }
     }
@@ -146,13 +164,19 @@ public class Playing extends State {
     @Override
     public void keyReleased(KeyEvent e) {
 
+        if (gameOver) {
+            gameOverOverlay.keyPressed(e);
+
+            return;
+        }
+
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W -> player.setUp(false);
             case KeyEvent.VK_A -> player.setLeft(false);
             case KeyEvent.VK_S -> player.setDown(false);
             case KeyEvent.VK_D -> player.setRight(false);
-            case KeyEvent.VK_J -> player.setAttacking(false);
-            case KeyEvent.VK_L -> player.setJump(false);
+            case KeyEvent.VK_J -> player.setJump(false);
+            case KeyEvent.VK_K -> player.setAttacking(false);
         }
     }
 
@@ -198,5 +222,22 @@ public class Playing extends State {
 
     public void unpauseGame () {
         paused = false;
+    }
+
+    public void resetAll() {
+
+        gameOver = false;
+        paused = false;
+
+        player.reset();
+        enemyManager.resetAllEnemies();
+    }
+
+    public void checkEnemyHit() {
+        enemyManager.checkEnemyHit(player.getAttackBox());
+    }
+
+    public void setGameOver(boolean b) {
+        this.gameOver = b;
     }
 }

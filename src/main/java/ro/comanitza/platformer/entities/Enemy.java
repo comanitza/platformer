@@ -22,11 +22,16 @@ public abstract class Enemy extends Entity {
     protected double fallSpeed;
     protected double gravity = 0.04 * Constants.Game.SCALE;
     protected int walkingDirection = LEFT;
-    protected double walkingSpeed = 1d * Constants.Game.SCALE;
+    protected double walkingSpeed = 0.5d * Constants.Game.SCALE;
     protected int enemyTileY;
+    protected boolean attackChecked;
 
     protected double attackDistance = Constants.Game.TILES_IN_WIDTH;
     protected double visualRange = attackDistance * 5;
+
+    protected final int maxHealth;
+    protected int currentHealth;
+    protected boolean active = true;
 
     public Enemy(double x, double y, int width, int height, int enemyType) {
         super(x, y, width, height);
@@ -34,6 +39,8 @@ public abstract class Enemy extends Entity {
         initHitBox(x, y, width, height);
 
         this.enemyType = enemyType;
+        maxHealth = Constants.Enemy.getMaxEnemyHealth(enemyType);
+        currentHealth = maxHealth;
     }
 
     protected void updateAnimationTick() {
@@ -49,6 +56,10 @@ public abstract class Enemy extends Entity {
 
                 if (enemyState == Constants.Enemy.ATTACK) {
                     enemyState = Constants.Enemy.IDLE;
+                } else if (enemyState == Constants.Enemy.HIT) {
+                    enemyState = Constants.Enemy.IDLE;
+                } else if (enemyState == Constants.Enemy.DEAD) {
+                    active = false;
                 }
             }
         }
@@ -155,5 +166,36 @@ public abstract class Enemy extends Entity {
 
     public int getEnemyState() {
         return enemyState;
+    }
+
+    public void hurt(int value) {
+        currentHealth -= value;
+
+        if (currentHealth <= 0) {
+            newState(Constants.Enemy.DEAD);
+        } else {
+            newState(Constants.Enemy.HIT);
+        }
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    protected void checkPlayerHit(Player player, Rectangle2D.Double attackBox) {
+        if (attackBox.intersects(player.hitBox)) {
+            player.changeHealth(-Constants.Enemy.getMaxEnemyDamage(enemyType));
+        }
+    }
+
+    public void reset() {
+        hitBox.x = x;
+        hitBox.y = y;
+        firstUpdate = true;
+        currentHealth = maxHealth;
+        newState(Constants.Enemy.IDLE);
+        active = true;
+        fallSpeed = 0;
+        inAir = true;
     }
 }
