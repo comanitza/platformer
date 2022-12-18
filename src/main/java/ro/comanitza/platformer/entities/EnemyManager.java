@@ -1,12 +1,14 @@
 package ro.comanitza.platformer.entities;
 
 import ro.comanitza.platformer.gamestates.Playing;
+import ro.comanitza.platformer.levels.Level;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Collections;
 import java.util.List;
 
 import static ro.comanitza.platformer.util.Constants.Enemy.CRRABY_X_OFFSET;
@@ -17,14 +19,12 @@ public class EnemyManager {
     private Playing playing;
     private final BufferedImage[][] crabbyImages;
 
-    private List<Crabby> crabbies;
+    private List<Crabby> crabbies = Collections.emptyList();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
 
         crabbyImages = loadCrabbyImages();
-
-        crabbies = LoadSave.getCrabbies("/level_one_data_long.png");
     }
 
     private BufferedImage[][] loadCrabbyImages() {
@@ -42,7 +42,13 @@ public class EnemyManager {
         return imgs;
     }
 
+    public void loadCrabs(Level level) {
+        this.crabbies = level.getCrabs();
+    }
+
     public void update(int[][] levelData) {
+
+        boolean isAnyActive = false;
 
         for(Crabby c: crabbies) {
 
@@ -51,6 +57,12 @@ public class EnemyManager {
             }
 
             c.update(levelData, playing.getPlayer());
+
+            isAnyActive = true;
+        }
+
+        if (!isAnyActive) {
+            playing.setLevelCompleted(true);
         }
     }
 

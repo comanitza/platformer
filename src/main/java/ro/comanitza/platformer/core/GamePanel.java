@@ -36,6 +36,7 @@ public class GamePanel extends JPanel {
         /*
          * this must be present, or else we will not move
          */
+        setFocusable(true);
         requestFocus(true);
 
         game.render(g);

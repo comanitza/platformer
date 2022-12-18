@@ -2,7 +2,9 @@ package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.Player;
+import ro.comanitza.platformer.ui.PauseButton;
 
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import static ro.comanitza.platformer.util.Constants.Game.*;
@@ -70,6 +72,14 @@ public class Utils {
     }
 
     public static boolean isFloor(Rectangle2D.Double hitBox, double speed, int[][] levelData) {
+
+        /*
+         * we are moving to the right
+         */
+        if (speed > 0) {
+            return isSolid(hitBox.x + hitBox.width + speed, hitBox.y + hitBox.height + 1, levelData);
+        }
+
         return isSolid(hitBox.x + speed, hitBox.y + hitBox.height + 1, levelData);
     }
 
@@ -117,5 +127,10 @@ public class Utils {
         }
 
         return true;
+    }
+
+    public static boolean isButtonOver(MouseEvent e, PauseButton button) {
+
+        return button.getBounds().contains(e.getX(), e.getY());
     }
 }

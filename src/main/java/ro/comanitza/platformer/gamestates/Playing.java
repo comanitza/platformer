@@ -5,6 +5,7 @@ import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.GameOverOverlay;
+import ro.comanitza.platformer.ui.LevelCompletedOverlay;
 import ro.comanitza.platformer.ui.PausedOverlay;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
@@ -29,9 +30,9 @@ public class Playing extends State {
     private int levelOffset;
     private int leftBorder = (int)(0.2 * GAME_WIDTH);
     private int rightBorder = (int)(0.8 * GAME_WIDTH);
-    private final int levelTilesWidth;//getLevelManager().getCurrentLevel().getLevelData()[0].length;
-    private final int maxTilesOffset;
-    private final int maxTilesOffsetInPixels;
+//    private final int levelTilesWidth;
+//    private final int maxTilesOffset;
+    private int maxTilesOffsetInPixels;
 
     private final BufferedImage backGroundImage = LoadSave.getPlayingBackground();
     private final BufferedImage bigCloudsImage = LoadSave.getBigClouds();
@@ -41,6 +42,9 @@ public class Playing extends State {
     private boolean gameOver;
 
     private final GameOverOverlay gameOverOverlay;
+    private final LevelCompletedOverlay levelCompletedOverlay;
+
+    private boolean levelCompleted;
 
     public Playing(final Game game) {
         super(game);
@@ -53,10 +57,10 @@ public class Playing extends State {
 
         pausedOverlay = new PausedOverlay(this);
 
-        levelTilesWidth = getLevelManager().getCurrentLevel().getLevelData()[0].length;
-
-        maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
-        maxTilesOffsetInPixels = maxTilesOffset * TILES_SIZE;
+//        levelTilesWidth = getLevelManager().getCurrentLevel().getLevelData()[0].length;
+//
+//        maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
+//        maxTilesOffsetInPixels = maxTilesOffset * TILES_SIZE;
 
         Random rand = new Random();
 
@@ -65,6 +69,11 @@ public class Playing extends State {
         }
 
         gameOverOverlay = new GameOverOverlay(this);
+        levelCompletedOverlay = new LevelCompletedOverlay(this);
+
+        maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
+
+        enemyManager.loadCrabs(levelManager.getCurrentLevel());
     }
 
     @Override
@@ -76,6 +85,8 @@ public class Playing extends State {
 
         if (paused) {
             pausedOverlay.update();
+        } else if (levelCompleted) {
+            levelCompletedOverlay.update();
         } else {
             levelManager.update();
             player.update();
@@ -129,9 +140,10 @@ public class Playing extends State {
             pausedOverlay.render(g);
         } else if (gameOver) {
             gameOverOverlay.render(g);
+        } else if (levelCompleted) {
+            levelCompletedOverlay.render(g);
         }
     }
-
 
     public void windowFocusLost() {
 
@@ -199,24 +211,42 @@ public class Playing extends State {
     @Override
     public void mousePressed(MouseEvent e) {
 
+        if (gameOver) {
+            return;
+        }
+
         if (paused) {
             pausedOverlay.mousePressed(e);
+        } else if (levelCompleted) {
+            levelCompletedOverlay.mousePressed(e);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
+        if (gameOver) {
+            return;
+        }
+
         if (paused) {
             pausedOverlay.mouseReleased(e);
+        } else if (levelCompleted) {
+            levelCompletedOverlay.mouseReleased(e);
         }
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
 
+        if (gameOver) {
+            return;
+        }
+
         if (paused) {
             pausedOverlay.mouseMoved(e);
+        } else if (levelCompleted) {
+            levelCompletedOverlay.mouseMoved(e);
         }
     }
 
@@ -228,9 +258,15 @@ public class Playing extends State {
 
         gameOver = false;
         paused = false;
+        levelCompleted = false;
 
         player.reset();
         enemyManager.resetAllEnemies();
+    }
+
+    public void loadNextLevel() {
+        resetAll();
+        levelManager.loadNextLevel();
     }
 
     public void checkEnemyHit() {
@@ -239,5 +275,17 @@ public class Playing extends State {
 
     public void setGameOver(boolean b) {
         this.gameOver = b;
+    }
+
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
+    }
+
+    public void setLevelOffset(int levelOffset) {
+        this.levelOffset = levelOffset;
+    }
+
+    public void setLevelCompleted(boolean b) {
+        this.levelCompleted = b;
     }
 }

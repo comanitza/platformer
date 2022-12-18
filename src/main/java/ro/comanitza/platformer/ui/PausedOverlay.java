@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import static ro.comanitza.platformer.util.Utils.isButtonOver;
+
 public class PausedOverlay {
 
     private final BufferedImage backGroundImage;
@@ -108,7 +110,7 @@ public class PausedOverlay {
         } else if (isButtonOver(e, replayButton)) {
 
             if (replayButton.isMousePressed()) {
-                System.out.println("replay level");
+                playing.resetAll();
             }
         } else if (isButtonOver(e, unpauseButton)) {
 
@@ -145,10 +147,5 @@ public class PausedOverlay {
         } else if (isButtonOver(e, replayButton)) {
             replayButton.setMouseOver(true);
         }
-    }
-
-    protected boolean isButtonOver(MouseEvent e, PauseButton button) {
-
-        return button.getBounds().contains(e.getX(), e.getY());
     }
 }

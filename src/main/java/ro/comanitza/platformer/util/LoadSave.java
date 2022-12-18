@@ -5,8 +5,13 @@ import ro.comanitza.platformer.entities.Crabby;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static ro.comanitza.platformer.util.Constants.Game.*;
@@ -37,9 +42,9 @@ public class LoadSave {
         return getAtlas("/outside_sprites.png");
     }
 
-    public static List<Crabby> getCrabbies(final String levelPath) {
+    public static List<Crabby> getCrabbies(BufferedImage img) {
 
-        BufferedImage img = LoadSave.getAtlas(levelPath);
+//        BufferedImage img = LoadSave.getAtlas(levelPath);
 
         List<Crabby> crabbies = new ArrayList<>();
 
@@ -60,9 +65,9 @@ public class LoadSave {
         return crabbies;
     }
 
-    public static int[][] getLevelData(final String levelPath) {
+    public static int[][] getLevelData(BufferedImage img) {
 
-        BufferedImage img = LoadSave.getAtlas(levelPath);
+//        BufferedImage img = LoadSave.getAtlas(levelPath);
         int[][] levelData = new int[img.getHeight()][img.getWidth()];
 
         for (int i = 0; i < img.getHeight(); i++) {
@@ -122,5 +127,41 @@ public class LoadSave {
 
     public static BufferedImage getStatusBar() {
         return getAtlas("/health_power_bar.png");
+    }
+
+    public static BufferedImage getLevelCompletaedImage () {
+        return getAtlas("/completed_sprite.png");
+    }
+
+    public static BufferedImage[] getAllLevels() {
+
+        URL levelsUrl = LoadSave.class.getResource("/levels");
+
+        File folder = null;
+
+        try {
+            folder = new File(levelsUrl.toURI());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        File[] files = folder.listFiles();
+
+        Arrays.sort(files);
+
+        BufferedImage[] levels = new BufferedImage[files.length];
+
+        for(int i = 0; i < levels.length; i++) {
+
+            File f = files[i];
+
+            try {
+                levels[i] = ImageIO.read(f);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return levels;
     }
 }

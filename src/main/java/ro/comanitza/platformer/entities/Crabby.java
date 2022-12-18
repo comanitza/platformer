@@ -52,10 +52,10 @@ public class Crabby extends Enemy {
 
                     if (canSeePlayer(levelData, player)) {
                         moveTowardsPlayer(player);
-                    }
 
-                    if (isPlayerInAttackRange(player)) {
-                        newState(Constants.Enemy.ATTACK);
+                        if (isPlayerInAttackRange(player)) {
+                            newState(Constants.Enemy.ATTACK);
+                        }
                     }
 
                     move(levelData, player);
