@@ -4,7 +4,6 @@ import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
-import ro.comanitza.platformer.util.Utils;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -30,7 +29,7 @@ public class LevelCompletedOverlay {
     public LevelCompletedOverlay(Playing playing) {
         this.playing = playing;
 
-        image = LoadSave.getLevelCompletaedImage();
+        image = LoadSave.getLevelCompletedImage();
 
         imageW = (int)(image.getWidth() * Constants.Game.SCALE);
         imageH = (int)(image.getHeight() * Constants.Game.SCALE);

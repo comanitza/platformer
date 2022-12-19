@@ -129,7 +129,7 @@ public class LoadSave {
         return getAtlas("/health_power_bar.png");
     }
 
-    public static BufferedImage getLevelCompletaedImage () {
+    public static BufferedImage getLevelCompletedImage() {
         return getAtlas("/completed_sprite.png");
     }
 
@@ -163,5 +163,13 @@ public class LoadSave {
         }
 
         return levels;
+    }
+
+    public static BufferedImage getContainersImage() {
+        return getAtlas("/objects_sprites.png");
+    }
+
+    public static BufferedImage getPotionsImage() {
+        return getAtlas("/potions_sprites.png");
     }
 }

@@ -3,6 +3,7 @@ package ro.comanitza.platformer.gamestates;
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
+import ro.comanitza.platformer.items.ItemsManager;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.GameOverOverlay;
 import ro.comanitza.platformer.ui.LevelCompletedOverlay;
@@ -46,6 +47,8 @@ public class Playing extends State {
 
     private boolean levelCompleted;
 
+    private final ItemsManager itemsManager;
+
     public Playing(final Game game) {
         super(game);
 
@@ -74,6 +77,8 @@ public class Playing extends State {
         maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
 
         enemyManager.loadCrabs(levelManager.getCurrentLevel());
+
+        itemsManager = new ItemsManager(this);
     }
 
     @Override
@@ -90,6 +95,7 @@ public class Playing extends State {
         } else {
             levelManager.update();
             player.update();
+            itemsManager.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData());
             checkCloseToBorder();
         }
@@ -132,6 +138,7 @@ public class Playing extends State {
         levelManager.render(g, levelOffset);
         player.render(g, levelOffset);
         enemyManager.render(g, levelOffset);
+        itemsManager.render(g, levelOffset);
 
         if (paused) {
             g.setColor(new Color(0, 0, 0, 120));
@@ -287,5 +294,9 @@ public class Playing extends State {
 
     public void setLevelCompleted(boolean b) {
         this.levelCompleted = b;
+    }
+
+    public ItemsManager getItemsManager() {
+        return itemsManager;
     }
 }
