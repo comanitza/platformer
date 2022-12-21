@@ -10,6 +10,7 @@ public class Container extends GameItem {
         super(x, y, itemType);
 
         initHitBox(Constants.Items.CONTAINER_WIDTH, Constants.Items.CONTAINER_HEIGHT);
+        createHitBox(itemType);
 
     }
 
@@ -17,10 +18,10 @@ public class Container extends GameItem {
 
         if (itemType == Constants.Items.BOX) {
 
-            initHitBox(25, 18);
+            initHitBox(Constants.Items.CONTAINER_WIDTH, Constants.Items.CONTAINER_HEIGHT);
 
             xDrawOffset = (int)(7 * Constants.Game.SCALE);
-            yDrawOffset = (int)(12 * Constants.Game.SCALE);
+            yDrawOffset = 0;//(int)(2 * Constants.Game.SCALE);
 
             return;
         }
@@ -32,6 +33,9 @@ public class Container extends GameItem {
             xDrawOffset = (int)(8 * Constants.Game.SCALE);
             yDrawOffset = (int)(5 * Constants.Game.SCALE);
         }
+
+        hitBox.y += yDrawOffset + (int)(2 * Constants.Game.SCALE);
+        hitBox.x += (int)(xDrawOffset / 2);
     }
 
     public void update() {
@@ -40,4 +44,7 @@ public class Container extends GameItem {
             updateAnimationTick();
         }
     }
+
+
+
 }

@@ -107,6 +107,12 @@ public class Player extends Entity {
 
         if (attacking) {
             checkAttack();
+
+            playing.getItemsManager().checkItemHit(getAttackBox());
+        }
+
+        if (moving) {
+            playing.getItemsManager().checkItemTouchedPlayer(getHitBox());
         }
 
         setAnimation();

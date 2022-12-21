@@ -269,11 +269,14 @@ public class Playing extends State {
 
         player.reset();
         enemyManager.resetAllEnemies();
+
+        itemsManager.resetAllItems();
     }
 
     public void loadNextLevel() {
         resetAll();
         levelManager.loadNextLevel();
+        itemsManager.loadNextLevel();
     }
 
     public void checkEnemyHit() {

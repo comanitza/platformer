@@ -1,6 +1,8 @@
 package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.entities.Crabby;
+import ro.comanitza.platformer.items.Container;
+import ro.comanitza.platformer.items.Potion;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -44,8 +46,6 @@ public class LoadSave {
 
     public static List<Crabby> getCrabbies(BufferedImage img) {
 
-//        BufferedImage img = LoadSave.getAtlas(levelPath);
-
         List<Crabby> crabbies = new ArrayList<>();
 
         for (int i = 0; i < img.getHeight(); i++) {
@@ -63,6 +63,57 @@ public class LoadSave {
         }
 
         return crabbies;
+    }
+
+    public static List<Potion> getPotions(BufferedImage img) {
+
+        List<Potion> potions = new ArrayList<>();
+
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getBlue();
+
+                if (colorValue == Constants.Items.RED_POTION) {
+                    potions.add(new Potion(j * TILES_SIZE, i * TILES_SIZE, Constants.Items.RED_POTION));
+                }
+
+                if (colorValue == Constants.Items.BLUE_POTION) {
+                    potions.add(new Potion(j * TILES_SIZE, i * TILES_SIZE, Constants.Items.BLUE_POTION));
+                }
+            }
+        }
+
+        return potions;
+    }
+
+    public static List<Container> getContainer(BufferedImage img) {
+
+        List<Container> containers = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getBlue();
+
+                if (colorValue == Constants.Items.BOX) {
+                    containers.add(new Container(j * TILES_SIZE, i * TILES_SIZE, Constants.Items.BOX));
+                }
+
+                if (colorValue == Constants.Items.BARREL) {
+                    containers.add(new Container(j * TILES_SIZE, i * TILES_SIZE, Constants.Items.BARREL));
+                }
+            }
+        }
+
+        return containers;
     }
 
     public static int[][] getLevelData(BufferedImage img) {

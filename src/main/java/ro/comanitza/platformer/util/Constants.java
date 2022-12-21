@@ -11,7 +11,7 @@ public class Constants {
         public static final int BARREL = 2;
         public static final int BOX = 3;
 
-        public static final int RED_POTION_VALUE = 15;
+        public static final int RED_POTION_VALUE = 10;
         public static final int BLUE_POTION_VALUE = 10;
 
         public static final int CONTAINER_WIDTH_DEFAULT = 40;

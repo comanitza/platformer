@@ -5,6 +5,7 @@ import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ public class ItemsManager {
     private final BufferedImage[][] containersImages;
     private final BufferedImage[][] potionsImage;
 
-    private List<Potion> potions = new ArrayList<>();
-    private List<Container> containers = new ArrayList<>();
+    private List<Potion> potions;
+    private List<Container> containers;
 
 
     public ItemsManager(Playing playing) {
@@ -26,11 +27,61 @@ public class ItemsManager {
         containersImages = getContainerImages();
         potionsImage = getPotionImages();
 
-        potions.add(new Potion(300, 300, Constants.Items.BLUE_POTION));
-        potions.add(new Potion(320, 300, Constants.Items.RED_POTION));
 
-        containers.add(new Container(200, 200, Constants.Items.BOX));
-        containers.add(new Container(280, 200, Constants.Items.BARREL));
+        loadNextLevel();
+    }
+
+    public void loadNextLevel() {
+        potions = playing.getLevelManager().getCurrentLevel().getPotions();
+        containers = playing.getLevelManager().getCurrentLevel().getContainers();
+    }
+
+    public void checkItemTouchedPlayer(Rectangle2D.Double hitBox) {
+
+        for (Potion p: potions) {
+
+            if (!p.isActive()) {
+                continue;
+            }
+
+            if (hitBox.intersects(p.getHitBox())) {
+
+                applyEffectToPlayer(p);
+                p.setActive(false);
+                return;
+            }
+        }
+
+    }
+
+    private void applyEffectToPlayer(Potion p) {
+
+        if (p.getItemType() == Constants.Items.RED_POTION) {
+            playing.getPlayer().changeHealth(Constants.Items.RED_POTION_VALUE);
+        }
+    }
+
+    public void checkItemHit(Rectangle2D.Double attackBox) {
+
+
+        for (Container c: containers) {
+            if (!c.isActive()) {
+                continue;
+            }
+
+            if (attackBox.intersects(c.getHitBox())) {
+                c.setDoAnimation(true);
+                c.setActive(false);
+
+                potions.add(new Potion(
+                        (int)(c.getHitBox().getX() + c.getHitBox().getWidth() / 2),
+                        (int)(c.getHitBox().getY()),
+                        Constants.Items.RED_POTION)
+                    );
+
+                return;
+            }
+        }
     }
 
 
@@ -120,6 +171,17 @@ public class ItemsManager {
                     Constants.Items.POTION_WIDTH,
                     Constants.Items.POTION_HEIGHT,
                     null);
+        }
+    }
+
+    public void resetAllItems() {
+
+        for(Potion p: potions) {
+            p.reset();
+        }
+
+        for (Container c: containers) {
+            c.reset();
         }
     }
 }

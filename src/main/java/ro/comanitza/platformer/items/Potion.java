@@ -6,6 +6,10 @@ import java.awt.*;
 
 public class Potion extends GameItem {
 
+    private double hoverOffset;
+    private int maxHoverOffset;
+    private int hoverDirection = 1;
+
     public Potion(int x, int y, int itemType) {
         super(x, y, itemType);
 
@@ -15,13 +19,25 @@ public class Potion extends GameItem {
 
         xDrawOffset = (int)(3 * Constants.Game.SCALE);
         yDrawOffset = (int)(2 * Constants.Game.SCALE);
+
+        maxHoverOffset = (int) (10 * Constants.Game.SCALE);
     }
 
     public void update() {
         updateAnimationTick();
+        updateHover();
     }
 
-    public void render(Graphics g) {
+    private void updateHover() {
 
+        hoverOffset += 0.1d * Constants.Game.SCALE * hoverDirection;
+
+        if (hoverOffset >= maxHoverOffset) {
+            hoverDirection = -1;
+        } else if (hoverOffset < 0) {
+            hoverDirection = 1;
+        }
+
+        hitBox.y = y + hoverOffset;
     }
 }

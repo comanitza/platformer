@@ -94,4 +94,8 @@ public abstract class GameItem {
     public int getItemType() {
         return itemType;
     }
+
+    public void setDoAnimation(boolean doAnimation) {
+        this.doAnimation = doAnimation;
+    }
 }
