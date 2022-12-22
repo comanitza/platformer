@@ -12,14 +12,10 @@ public class KeyboardInputs implements KeyListener {
 
     public KeyboardInputs (GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-
-        System.out.println("create KeyboardInputs " + this);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-        System.out.println("key typed: " + e);
     }
 
     @Override

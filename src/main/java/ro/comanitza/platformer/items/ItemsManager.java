@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.items;
 
+import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
@@ -16,9 +17,11 @@ public class ItemsManager {
 
     private final BufferedImage[][] containersImages;
     private final BufferedImage[][] potionsImage;
+    private final BufferedImage spikesImage;
 
     private List<Potion> potions;
     private List<Container> containers;
+    private List<Spike> spikes;
 
 
     public ItemsManager(Playing playing) {
@@ -26,14 +29,25 @@ public class ItemsManager {
 
         containersImages = getContainerImages();
         potionsImage = getPotionImages();
+        spikesImage = LoadSave.getSpikeImage();
 
 
         loadNextLevel();
     }
 
     public void loadNextLevel() {
-        potions = playing.getLevelManager().getCurrentLevel().getPotions();
+        potions = new ArrayList<>(playing.getLevelManager().getCurrentLevel().getPotions());
         containers = playing.getLevelManager().getCurrentLevel().getContainers();
+        spikes = playing.getLevelManager().getCurrentLevel().getSpikes();
+    }
+
+    public void checkSpikesTouched(Player player) {
+        for (Spike s: spikes) {
+
+            if (s.getHitBox().intersects(player.getHitBox())) {
+                player.changeHealth(-20);
+            }
+        }
     }
 
     public void checkItemTouchedPlayer(Rectangle2D.Double hitBox) {
@@ -138,6 +152,13 @@ public class ItemsManager {
 
         renderPotions(g, levelOffset);
         renderContainers(g, levelOffset);
+        renderSpikes(g, levelOffset);
+    }
+
+    private void renderSpikes(Graphics g, int levelOffset) {
+        for (Spike s: spikes) {
+            g.drawImage(spikesImage, (int)(s.getHitBox().getX() - levelOffset), (int)(s.getHitBox().getY() - s.getYDrawOffset()), Constants.Items.SPIKE_WIDTH, Constants.Items.SPIKE_HEIGHT, null);
+        }
     }
 
     private void renderContainers(Graphics g, int levelOffset) {
@@ -175,6 +196,10 @@ public class ItemsManager {
     }
 
     public void resetAllItems() {
+
+        potions.clear();
+
+        potions.addAll(playing.getLevelManager().getCurrentLevel().getPotions());
 
         for(Potion p: potions) {
             p.reset();

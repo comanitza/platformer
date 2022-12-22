@@ -3,6 +3,7 @@ package ro.comanitza.platformer.levels;
 import ro.comanitza.platformer.entities.Crabby;
 import ro.comanitza.platformer.items.Container;
 import ro.comanitza.platformer.items.Potion;
+import ro.comanitza.platformer.items.Spike;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
 
@@ -18,6 +19,7 @@ public class Level {
     private List<Crabby> crabs;
     private List<Potion> potions;
     private List<Container> containers;
+    private List<Spike> spikes;
 
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -30,6 +32,7 @@ public class Level {
         this.crabs = createCrabbies(image);
         this.potions = createPotions();
         this.containers = createContainers();
+        this.spikes = createSpikes();
 
         levelTilesWidth = image.getWidth();
         maxTilesOffset = levelTilesWidth - Constants.Game.TILES_IN_WIDTH;
@@ -62,6 +65,10 @@ public class Level {
         return LoadSave.getContainer(image);
     }
 
+    private List<Spike> createSpikes() {
+        return LoadSave.getSpikes(image);
+    }
+
     public int getLevelOffset() {
         return maxTilesOffsetInPixels;
     }
@@ -76,5 +83,9 @@ public class Level {
 
     public List<Container> getContainers() {
         return containers;
+    }
+
+    public List<Spike> getSpikes() {
+        return spikes;
     }
 }

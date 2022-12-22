@@ -3,6 +3,7 @@ package ro.comanitza.platformer.util;
 import ro.comanitza.platformer.entities.Crabby;
 import ro.comanitza.platformer.items.Container;
 import ro.comanitza.platformer.items.Potion;
+import ro.comanitza.platformer.items.Spike;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -222,5 +223,29 @@ public class LoadSave {
 
     public static BufferedImage getPotionsImage() {
         return getAtlas("/potions_sprites.png");
+    }
+
+    public static BufferedImage getSpikeImage() {
+        return getAtlas("/trap_atlas.png");
+    }
+
+    public static List<Spike> getSpikes(BufferedImage img) {
+        List<Spike> spikes = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getBlue();
+
+                if (colorValue == Constants.Items.SPIKE) {
+                    spikes.add(new Spike(j * TILES_SIZE, i * TILES_SIZE, Constants.Items.SPIKE));
+                }
+            }
+        }
+
+        return spikes;
     }
 }

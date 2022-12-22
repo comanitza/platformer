@@ -75,6 +75,7 @@ public class Player extends Entity {
     private Rectangle2D.Double attackBox;
 
     private final Playing playing;
+    private long lastSpikeAttack = 0;
 
     public Player(double x, double y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -114,6 +115,13 @@ public class Player extends Entity {
         if (moving) {
             playing.getItemsManager().checkItemTouchedPlayer(getHitBox());
         }
+
+        if (System.currentTimeMillis() - lastSpikeAttack >= 500) {
+            playing.getItemsManager().checkSpikesTouched(this);
+            lastSpikeAttack = System.currentTimeMillis();
+        }
+
+
 
         setAnimation();
 
@@ -414,5 +422,8 @@ public class Player extends Entity {
         hitBox.x = x;
         hitBox.y = y;
 
+    }
+
+    public void kill() {
     }
 }
