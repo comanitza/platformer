@@ -248,4 +248,8 @@ public class LoadSave {
 
         return spikes;
     }
+
+    public static BufferedImage getOptionMenuBackground() {
+        return getAtlas("/options_background.png");
+    }
 }

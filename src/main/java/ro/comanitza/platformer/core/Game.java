@@ -3,6 +3,8 @@ package ro.comanitza.platformer.core;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.gamestates.Menu;
 import ro.comanitza.platformer.gamestates.Playing;
+import ro.comanitza.platformer.ui.AudioOptions;
+import ro.comanitza.platformer.ui.GameOptions;
 
 
 import java.awt.*;
@@ -14,11 +16,15 @@ public class Game {
 
     private final Playing playing;
     private final Menu menu;
+    private final GameOptions gameOptions;
+    private final AudioOptions audioOptions;
 
     public Game () {
 
+        audioOptions = new AudioOptions();
         playing = new Playing(this);
         menu = new Menu(this);
+        gameOptions = new GameOptions(this);
 
         gamePanel = new GamePanel(this);
         window = new GameWindow(gamePanel);
@@ -44,6 +50,9 @@ public class Game {
             case MENU:
                 menu.draw(g);
                 break;
+            case OPTION:
+                gameOptions.draw(g);
+                break;
             default:
                 break;
         }
@@ -53,10 +62,6 @@ public class Game {
 
         new Thread(new GameLoop(gamePanel, playing, menu), "game-loop-thread").start();
     }
-
-//    public Player getPlayer() {
-//        return player;
-//    }
 
     public void windowFocusLost() {
 
@@ -71,5 +76,13 @@ public class Game {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public AudioOptions getAudioOptions() {
+        return audioOptions;
+    }
+
+    public GameOptions getGameOptions() {
+        return gameOptions;
     }
 }

@@ -3,6 +3,7 @@ package ro.comanitza.platformer.core;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.gamestates.Menu;
 import ro.comanitza.platformer.gamestates.Playing;
+import ro.comanitza.platformer.ui.GameOptions;
 
 public class GameLoop implements Runnable {
 
@@ -31,6 +32,8 @@ public class GameLoop implements Runnable {
                 menu.update();
                 break;
             case OPTION:
+                playing.getGame().getGameOptions().update();
+                break;
             case QUIT:
                 System.exit(0);
             default:
