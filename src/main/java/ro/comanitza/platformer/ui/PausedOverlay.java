@@ -91,7 +91,7 @@ public class PausedOverlay {
         if (isButtonOver(e, menuButton)) {
 
             if (menuButton.isMousePressed()) {
-                GameState.gameState = GameState.MENU;
+                GameState.setGameState(GameState.MENU, playing.getGame());
                 playing.unpauseGame();
             }
         } else if (isButtonOver(e, replayButton)) {

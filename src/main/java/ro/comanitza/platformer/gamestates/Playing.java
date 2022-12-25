@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.gamestates;
 
+import ro.comanitza.platformer.audio.AudioPlayer;
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
@@ -31,8 +32,6 @@ public class Playing extends State {
     private int levelOffset;
     private int leftBorder = (int)(0.2 * GAME_WIDTH);
     private int rightBorder = (int)(0.8 * GAME_WIDTH);
-//    private final int levelTilesWidth;
-//    private final int maxTilesOffset;
     private int maxTilesOffsetInPixels;
 
     private final BufferedImage backGroundImage = LoadSave.getPlayingBackground();
@@ -59,11 +58,6 @@ public class Playing extends State {
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
         pausedOverlay = new PausedOverlay(this);
-
-//        levelTilesWidth = getLevelManager().getCurrentLevel().getLevelData()[0].length;
-//
-//        maxTilesOffset = levelTilesWidth - TILES_IN_WIDTH;
-//        maxTilesOffsetInPixels = maxTilesOffset * TILES_SIZE;
 
         Random rand = new Random();
 

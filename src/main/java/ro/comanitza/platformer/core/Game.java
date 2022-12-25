@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.core;
 
+import ro.comanitza.platformer.audio.AudioPlayer;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.gamestates.Menu;
 import ro.comanitza.platformer.gamestates.Playing;
@@ -18,16 +19,19 @@ public class Game {
     private final Menu menu;
     private final GameOptions gameOptions;
     private final AudioOptions audioOptions;
+    private final AudioPlayer audioPlayer;
 
     public Game () {
 
-        audioOptions = new AudioOptions();
+        audioOptions = new AudioOptions(this);
         playing = new Playing(this);
         menu = new Menu(this);
         gameOptions = new GameOptions(this);
 
         gamePanel = new GamePanel(this);
         window = new GameWindow(gamePanel);
+
+        audioPlayer = new AudioPlayer();
 
         /*
          * this line should be under the GameWindow creation
@@ -84,5 +88,9 @@ public class Game {
 
     public GameOptions getGameOptions() {
         return gameOptions;
+    }
+
+    public AudioPlayer getAudioPlayer() {
+        return audioPlayer;
     }
 }

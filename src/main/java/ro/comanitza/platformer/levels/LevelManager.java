@@ -67,13 +67,16 @@ public class LevelManager {
         return levels.get(currentLevelIndex);
     }
 
+    public int getCurrentLevelIndex() {
+        return currentLevelIndex;
+    }
 
     public void loadNextLevel() {
         currentLevelIndex++;
 
         if (currentLevelIndex >= levels.size()) {
             currentLevelIndex = 0;
-            GameState.gameState = GameState.MENU;
+            GameState.setGameState(GameState.MENU, game);
         }
 
         game.getPlaying().getEnemyManager().loadCrabs(getCurrentLevel());

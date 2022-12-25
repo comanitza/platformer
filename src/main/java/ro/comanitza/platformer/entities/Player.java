@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.entities;
 
+import ro.comanitza.platformer.audio.AudioPlayer;
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.LoadSave;
@@ -96,12 +97,6 @@ public class Player extends Entity {
 
     public void update() {
 
-        if (currentHealth <= 0) {
-
-            playing.setGameOver(true);
-            return;
-        }
-
         updatePosition();
 
         updateAttackBox();
@@ -131,6 +126,9 @@ public class Player extends Entity {
 
         if (currentHealth <= 0) {
 
+            playing.getGame().getAudioPlayer().stopMusic();
+            playing.getGame().getAudioPlayer().playEffect(AudioPlayer.DIE);
+            playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAME_OVER);
             playing.setGameOver(true);
         }
     }
@@ -228,6 +226,7 @@ public class Player extends Entity {
 
         if (attacking) {
             playerAction = ATTACK_1;
+            playing.getGame().getAudioPlayer().playAttackSound();
         }
 
         if (initialAnimation != playerAction) {
@@ -328,6 +327,8 @@ public class Player extends Entity {
             return;
         }
 
+        playing.getGame().getAudioPlayer().playEffect(AudioPlayer.JUMP);
+
         inAir = true;
         airSpeed = jumpSpeed;
 
@@ -422,8 +423,5 @@ public class Player extends Entity {
         hitBox.x = x;
         hitBox.y = y;
 
-    }
-
-    public void kill() {
     }
 }

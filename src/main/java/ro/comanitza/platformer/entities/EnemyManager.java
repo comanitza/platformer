@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.entities;
 
+import ro.comanitza.platformer.audio.AudioPlayer;
 import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.levels.Level;
 import ro.comanitza.platformer.util.Constants;
@@ -62,6 +63,7 @@ public class EnemyManager {
         }
 
         if (!isAnyActive) {
+            playing.getGame().getAudioPlayer().playEffect(AudioPlayer.LEVEL_COMPLETED);
             playing.setLevelCompleted(true);
         }
     }

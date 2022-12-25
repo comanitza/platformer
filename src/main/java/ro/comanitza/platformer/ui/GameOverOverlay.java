@@ -29,7 +29,7 @@ public class GameOverOverlay {
 
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             playing.resetAll();
-            GameState.gameState = GameState.MENU;
+            GameState.setGameState(GameState.MENU, playing.getGame());
         }
     }
 }

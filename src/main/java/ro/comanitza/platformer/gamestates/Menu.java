@@ -68,7 +68,7 @@ public class Menu extends State {
     public void keyPressed(KeyEvent e) {
 
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            GameState.gameState = GameState.PLAYING;
+            GameState.setGameState(GameState.PLAYING, getGame());
         }
     }
 
@@ -90,7 +90,8 @@ public class Menu extends State {
         for (MenuButton b: buttons) {
             if (isButtonPressed(e, b) && b.isMouseIsPressed()) {
 
-                b.applyGameState();
+                b.applyGameState(getGame());
+
                 break;
             }
         }

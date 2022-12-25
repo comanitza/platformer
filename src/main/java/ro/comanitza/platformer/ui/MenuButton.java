@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.ui;
 
+import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.util.Constants;
 import ro.comanitza.platformer.util.LoadSave;
@@ -75,8 +76,8 @@ public class MenuButton {
         return mouseIsPressed;
     }
 
-    public void applyGameState() {
-        GameState.gameState = gameState;
+    public void applyGameState(Game game) {
+        GameState.setGameState(gameState, game);
     }
 
 
@@ -95,5 +96,9 @@ public class MenuButton {
 
     public void setMouseIsPressed(boolean mouseIsPressed) {
         this.mouseIsPressed = mouseIsPressed;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 }

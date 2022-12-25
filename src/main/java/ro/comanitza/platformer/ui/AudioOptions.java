@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.ui;
 
+import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.gamestates.GameState;
 import ro.comanitza.platformer.util.Constants;
 
@@ -13,10 +14,14 @@ public class AudioOptions {
     private final SoundButton musicButton;
     private final SoundButton sfxButton;
 
-    public AudioOptions() {
+    private final Game game;
+
+    public AudioOptions(Game game) {
 
         musicButton = new SoundButton((int)(450 * Constants.Game.SCALE), (int)(140 * Constants.Game.SCALE), Constants.UI.PauseButtons.SOUND_BUTTON_SIZE, Constants.UI.PauseButtons.SOUND_BUTTON_SIZE);
         sfxButton = new SoundButton((int)(450 * Constants.Game.SCALE), (int)(186 * Constants.Game.SCALE), Constants.UI.PauseButtons.SOUND_BUTTON_SIZE, Constants.UI.PauseButtons.SOUND_BUTTON_SIZE);
+
+        this.game = game;
     }
 
     public void update () {
@@ -33,8 +38,10 @@ public class AudioOptions {
 
         if (isButtonOver(e, musicButton)) {
             musicButton.setMousePressed(true);
+            game.getAudioPlayer().toggleMusicMute();
         } else if (isButtonOver(e, sfxButton)) {
             sfxButton.setMousePressed(true);
+            game.getAudioPlayer().toggleEffectsMute();
         }
     }
 

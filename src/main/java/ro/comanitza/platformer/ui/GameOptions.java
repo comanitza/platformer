@@ -66,7 +66,7 @@ public class GameOptions extends State {
     @Override
     public void mouseReleased(MouseEvent e) {
         if (Utils.isButtonOver(e, menuButton) && menuButton.isMousePressed()) {
-            GameState.gameState = GameState.MENU;
+            GameState.setGameState(GameState.MENU, getGame());
             menuButton.resetBooleans();
         } else {
             audioOptions.mouseReleased(e);
