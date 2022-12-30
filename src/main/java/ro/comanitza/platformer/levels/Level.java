@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.levels;
 
 import ro.comanitza.platformer.entities.Crabby;
+import ro.comanitza.platformer.entities.Sharky;
 import ro.comanitza.platformer.items.Container;
 import ro.comanitza.platformer.items.Potion;
 import ro.comanitza.platformer.items.Spike;
@@ -20,6 +21,7 @@ public class Level {
     private List<Potion> potions;
     private List<Container> containers;
     private List<Spike> spikes;
+    private List<Sharky> sharkies;
 
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -33,6 +35,7 @@ public class Level {
         this.potions = createPotions();
         this.containers = createContainers();
         this.spikes = createSpikes();
+        this.sharkies = createSharkies(image);
 
         levelTilesWidth = image.getWidth();
         maxTilesOffset = levelTilesWidth - Constants.Game.TILES_IN_WIDTH;
@@ -57,6 +60,11 @@ public class Level {
         return LoadSave.getCrabbies(image);
     }
 
+    private List<Sharky> createSharkies(BufferedImage image) {
+
+        return LoadSave.getSharkies(image);
+    }
+
     private List<Potion> createPotions() {
         return LoadSave.getPotions(image);
     }
@@ -75,6 +83,10 @@ public class Level {
 
     public List<Crabby> getCrabs() {
         return crabs;
+    }
+
+    public List<Sharky> getSharkies() {
+        return sharkies;
     }
 
     public List<Potion> getPotions() {

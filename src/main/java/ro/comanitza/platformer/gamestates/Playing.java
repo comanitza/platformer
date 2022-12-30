@@ -1,6 +1,5 @@
 package ro.comanitza.platformer.gamestates;
 
-import ro.comanitza.platformer.audio.AudioPlayer;
 import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.entities.EnemyManager;
 import ro.comanitza.platformer.entities.Player;
@@ -71,6 +70,7 @@ public class Playing extends State {
         maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
 
         enemyManager.loadCrabs(levelManager.getCurrentLevel());
+        enemyManager.loadSharkies(levelManager.getCurrentLevel());
 
         itemsManager = new ItemsManager(this);
     }

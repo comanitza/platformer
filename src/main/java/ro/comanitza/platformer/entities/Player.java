@@ -1,16 +1,13 @@
 package ro.comanitza.platformer.entities;
 
 import ro.comanitza.platformer.audio.AudioPlayer;
-import ro.comanitza.platformer.core.Game;
 import ro.comanitza.platformer.gamestates.Playing;
 import ro.comanitza.platformer.util.LoadSave;
 import ro.comanitza.platformer.util.Utils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
 
 import static ro.comanitza.platformer.util.Constants.Directions.*;
 import static ro.comanitza.platformer.util.Constants.Player.*;
@@ -116,12 +113,8 @@ public class Player extends Entity {
             lastSpikeAttack = System.currentTimeMillis();
         }
 
-
-
         setAnimation();
-
         updateAnimationTick();
-
         updateHealthBar();
 
         if (currentHealth <= 0) {
@@ -339,12 +332,6 @@ public class Player extends Entity {
         if (Utils.canMoveHere(hitBox.x + xSpeed, hitBox.y, hitBox.width, hitBox.height, levelData)) {
             hitBox.x += xSpeed;
         }
-    }
-
-    public void setRectPosition(final int x, final int y) {
-
-        this.x = x;
-        this.x = y;
     }
 
     public boolean isLeft() {

@@ -12,20 +12,22 @@ import java.awt.image.BufferedImage;
 import java.util.Collections;
 import java.util.List;
 
-import static ro.comanitza.platformer.util.Constants.Enemy.CRRABY_X_OFFSET;
-import static ro.comanitza.platformer.util.Constants.Enemy.CRRABY_Y_OFFSET;
+import static ro.comanitza.platformer.util.Constants.Enemy.*;
 
 public class EnemyManager {
 
     private Playing playing;
     private final BufferedImage[][] crabbyImages;
+    private final BufferedImage[][] sharkyImages;
 
     private List<Crabby> crabbies = Collections.emptyList();
+    private List<Sharky> sharkies = Collections.emptyList();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
 
         crabbyImages = loadCrabbyImages();
+        sharkyImages = loadSharkyImages();
     }
 
     private BufferedImage[][] loadCrabbyImages() {
@@ -43,8 +45,30 @@ public class EnemyManager {
         return imgs;
     }
 
+    private BufferedImage[][] loadSharkyImages() {
+
+        BufferedImage[][] imgs = new BufferedImage[5][8];
+
+        BufferedImage temp = LoadSave.getSharkyEnemy();
+
+        for (int i = 0; i < imgs.length; i++) {
+
+            for (int j = 0; j < imgs[i].length; j++) {
+
+                imgs[i][j] = temp.getSubimage(j * Constants.Enemy.SHARKY_WIDTH_DEFAULT, i * Constants.Enemy.SHARKY_HEIGHT_DEFAULT, Constants.Enemy.SHARKY_WIDTH_DEFAULT, Constants.Enemy.SHARKY_HEIGHT_DEFAULT);
+            }
+        }
+
+        return imgs;
+    }
+
     public void loadCrabs(Level level) {
         this.crabbies = level.getCrabs();
+    }
+
+    public void loadSharkies(Level level) {
+
+        this.sharkies = level.getSharkies();
     }
 
     public void update(int[][] levelData) {
@@ -58,6 +82,17 @@ public class EnemyManager {
             }
 
             c.update(levelData, playing.getPlayer());
+
+            isAnyActive = true;
+        }
+
+        for (Sharky s: sharkies) {
+
+            if (!s.isActive()) {
+                continue;
+            }
+
+            s.update(levelData, playing.getPlayer());
 
             isAnyActive = true;
         }
@@ -78,8 +113,6 @@ public class EnemyManager {
 
             g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)(c.hitBox.x - CRRABY_X_OFFSET)) - levelOffset + c.flipX(), (int)(c.hitBox.y - CRRABY_Y_OFFSET), Constants.Enemy.CRABBY_WIDTH * c.flipW(), Constants.Enemy.CRABBY_HEIGHT, null);
 
-
-
             /*
              * draw hitbox
              */
@@ -88,6 +121,24 @@ public class EnemyManager {
 
             g.setColor(Color.GREEN);
             g.drawRect((int)(c.getAttackBox().x) - levelOffset, (int)c.getAttackBox().y, (int)c.getAttackBox().width, (int)c.getAttackBox().height);
+        }
+
+        for (Sharky s: sharkies) {
+
+            if (!s.isActive()) {
+                continue;
+            }
+
+            g.drawImage(sharkyImages[s.getEnemyState()][s.getAnimationIndex()], (((int)(s.getHitBox().getX() - SHARKY_X_OFFSET)) - levelOffset + s.flipX()),(int)(s.getHitBox().getY() - SHARKY_Y_OFFSET), SHARKY_WIDTH * s.flipW(), SHARKY_HEIGHT, null);
+
+            /*
+             * draw hitbox
+             */
+            g.setColor(Color.MAGENTA);
+            g.drawRect((int)s.getHitBox().x - levelOffset, (int)s.getHitBox().y, (int)s.getHitBox().width, (int)s.getHitBox().height);
+
+            g.setColor(Color.GREEN);
+            g.drawRect((int)(s.getAttackBox().x) - levelOffset, (int)s.getAttackBox().y, (int)s.getAttackBox().width, (int)s.getAttackBox().height);
         }
     }
 
@@ -106,12 +157,28 @@ public class EnemyManager {
             }
         }
 
+        for (Sharky s: sharkies) {
+
+            if (!s.isActive()) {
+                continue;
+            }
+
+            if (playerAttackBox.intersects(s.getHitBox())) {
+
+                s.hurt(10);
+                return;
+            }
+        }
     }
 
     public void resetAllEnemies() {
 
         for (Crabby c: crabbies) {
             c.reset();
+        }
+
+        for (Sharky s: sharkies) {
+            s.reset();
         }
     }
 }

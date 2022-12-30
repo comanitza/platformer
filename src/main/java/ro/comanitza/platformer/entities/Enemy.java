@@ -40,7 +40,11 @@ public abstract class Enemy extends Entity {
 
         this.enemyType = enemyType;
         maxHealth = Constants.Enemy.getMaxEnemyHealth(enemyType);
-        currentHealth = maxHealth;
+        currentHealth = getMaxHealth();
+    }
+
+    protected int getMaxHealth() {
+        return maxHealth;
     }
 
     protected void updateAnimationTick() {
@@ -192,10 +196,29 @@ public abstract class Enemy extends Entity {
         hitBox.x = x;
         hitBox.y = y;
         firstUpdate = true;
-        currentHealth = maxHealth;
+        currentHealth = getMaxHealth();
         newState(Constants.Enemy.IDLE);
         active = true;
         fallSpeed = 0;
         inAir = true;
+    }
+
+    public int flipX() {
+
+        if (walkingDirection == RIGHT) {
+            return width;
+        }
+
+        return 0;
+    }
+
+    public int flipW() {
+
+        if (walkingDirection == RIGHT) {
+            return -1;
+        }
+
+        return 1;
+
     }
 }

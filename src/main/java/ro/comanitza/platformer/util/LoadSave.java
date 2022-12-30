@@ -1,6 +1,7 @@
 package ro.comanitza.platformer.util;
 
 import ro.comanitza.platformer.entities.Crabby;
+import ro.comanitza.platformer.entities.Sharky;
 import ro.comanitza.platformer.items.Container;
 import ro.comanitza.platformer.items.Potion;
 import ro.comanitza.platformer.items.Spike;
@@ -9,7 +10,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -251,5 +251,31 @@ public class LoadSave {
 
     public static BufferedImage getOptionMenuBackground() {
         return getAtlas("/options_background.png");
+    }
+
+    public static BufferedImage getSharkyEnemy() {
+        return getAtlas("/shark_atlas.png");
+    }
+
+    public static List<Sharky> getSharkies(BufferedImage img) {
+
+        List<Sharky> sharkies = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getGreen();
+
+                if (colorValue == Constants.Enemy.SHARKY) {
+                    sharkies.add(new Sharky(j * TILES_SIZE, i * TILES_SIZE));
+                }
+            }
+        }
+
+        return sharkies;
+
     }
 }

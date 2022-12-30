@@ -42,6 +42,7 @@ public class Constants {
     public static class Enemy {
 
         public static final int CRABBY = 0;
+        public static final int SHARKY = 1;
 
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
@@ -58,6 +59,16 @@ public class Constants {
         public static final int CRRABY_X_OFFSET = (int)(26 * Game.SCALE);
         public static final int CRRABY_Y_OFFSET = (int)(9 * Game.SCALE);
 
+        public static final int SHARKY_WIDTH_DEFAULT = 34;
+        public static final int SHARKY_HEIGHT_DEFAULT = 30;
+
+        public static final int SHARKY_WIDTH = (int) (SHARKY_WIDTH_DEFAULT * Game.SCALE);
+        public static final int SHARKY_HEIGHT = (int) (SHARKY_HEIGHT_DEFAULT * Game.SCALE);
+
+        public static final int SHARKY_X_OFFSET = (int)(8 * Game.SCALE);
+        public static final int SHARKY_Y_OFFSET = (int)(6 * Game.SCALE);
+
+
         public static int getMaxEnemyHealth (int enemyType) {
 
             return switch (enemyType) {
@@ -70,7 +81,8 @@ public class Constants {
 
             return switch (enemyType) {
                 case CRABBY -> 15;
-                default -> 0;
+                case SHARKY -> 15;
+                default -> 5;
             };
         }
 
@@ -78,6 +90,15 @@ public class Constants {
         public static int getSpriteAmount(int enemyType, int enemyAction) {
 
             switch (enemyType) {
+                case SHARKY:
+                    return switch (enemyAction) {
+                        case IDLE -> 8;
+                        case RUNNING -> 6;
+                        case ATTACK -> 8;
+                        case HIT -> 4;
+                        case DEAD -> 5;
+                        default -> 1;
+                    };
                 case CRABBY:
                 default:
                     return switch (enemyAction) {

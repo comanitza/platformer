@@ -82,5 +82,6 @@ public class LevelManager {
         game.getPlaying().getEnemyManager().loadCrabs(getCurrentLevel());
         game.getPlaying().getPlayer().loadLevelData(getCurrentLevel().getLevelData());
         game.getPlaying().setLevelOffset(getCurrentLevel().getLevelOffset());
+        game.getPlaying().getEnemyManager().loadSharkies(getCurrentLevel());
     }
 }

@@ -1,37 +1,32 @@
 package ro.comanitza.platformer.entities;
 
 import ro.comanitza.platformer.util.Constants;
-import ro.comanitza.platformer.util.Utils;
 
 import java.awt.geom.Rectangle2D;
 
-import static ro.comanitza.platformer.util.Constants.Directions.LEFT;
-import static ro.comanitza.platformer.util.Constants.Directions.RIGHT;
-import static ro.comanitza.platformer.util.Utils.isFloor;
+import static ro.comanitza.platformer.util.Constants.Game.SCALE;
 
-public class Crabby extends Enemy {
+public class Sharky extends Enemy {
 
-    private Rectangle2D.Double attackBox;
+    private final Rectangle2D.Double attackBox;
     private final int attackOffset = (int)(30 * Constants.Game.SCALE);
 
-    public Crabby(double x, double y) {
-        super(x, y, Constants.Enemy.CRABBY_WIDTH, Constants.Enemy.CRABBY_HEIGHT, Constants.Enemy.CRABBY);
+    protected int getMaxHealth() {
+        return 20;
+    }
 
+    public Sharky(double x, double y) {
+        super(x, y, Constants.Enemy.SHARKY_WIDTH, Constants.Enemy.SHARKY_HEIGHT, Constants.Enemy.SHARKY);
+
+        //todo adapt values better
         initHitBox(x, y, (int)(22 * Constants.Game.SCALE), (int)(19 * Constants.Game.SCALE));
-        attackBox = new Rectangle2D.Double(x, y, (int)(82 * Constants.Game.SCALE), (int)(19 * Constants.Game.SCALE));
+        attackBox = new Rectangle2D.Double(x, y, (int)(40 * Constants.Game.SCALE), (int)(19 * Constants.Game.SCALE));
     }
 
     public void update(int[][] levelData, Player player) {
-
         updateBehaviour(levelData, player);
         updateAnimationTick();
         updateAttackBox();
-    }
-
-    private void updateAttackBox() {
-
-        attackBox.x = hitBox.x - attackOffset;
-        attackBox.y = hitBox.y;
     }
 
     public void updateBehaviour(int[][] levelData, Player player) {
@@ -79,11 +74,18 @@ public class Crabby extends Enemy {
         }
     }
 
+    private void updateAttackBox() {
 
+        if (walkingDirection == Constants.Directions.RIGHT) {
+            attackBox.x = hitBox.x + (width / 2) + (int)(SCALE * 5);
+        } else if (walkingDirection == Constants.Directions.LEFT) {
+            attackBox.x = hitBox.x - (width + (int)(SCALE * 5));
+        }
+
+        attackBox.y = hitBox.y;
+    }
 
     public Rectangle2D.Double getAttackBox() {
         return attackBox;
     }
-
-
 }
