@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.util;
 
+import ro.comanitza.platformer.entities.BlackPirate;
 import ro.comanitza.platformer.entities.Crabby;
 import ro.comanitza.platformer.entities.Sharky;
 import ro.comanitza.platformer.items.Container;
@@ -276,6 +277,32 @@ public class LoadSave {
         }
 
         return sharkies;
+
+    }
+
+    public static BufferedImage getBlackPirate() {
+        return getAtlas("/black_pirate2.png");
+    }
+
+    public static List<BlackPirate> getBlackPirates(BufferedImage img) {
+
+        List<BlackPirate> blackPirates = new ArrayList<>();
+
+        for (int i = 0; i < img.getHeight(); i++) {
+
+            for (int j = 0; j < img.getWidth(); j++) {
+
+                Color color = new Color(img.getRGB(j, i));
+
+                int colorValue = color.getGreen();
+
+                if (colorValue == Constants.Enemy.BLACK_PIRATE) {
+                    blackPirates.add(new BlackPirate(j * TILES_SIZE, i * TILES_SIZE));
+                }
+            }
+        }
+
+        return blackPirates;
 
     }
 }

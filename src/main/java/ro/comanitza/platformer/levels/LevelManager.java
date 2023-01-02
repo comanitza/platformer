@@ -83,5 +83,6 @@ public class LevelManager {
         game.getPlaying().getPlayer().loadLevelData(getCurrentLevel().getLevelData());
         game.getPlaying().setLevelOffset(getCurrentLevel().getLevelOffset());
         game.getPlaying().getEnemyManager().loadSharkies(getCurrentLevel());
+        game.getPlaying().getEnemyManager().loadBlackPirates(getCurrentLevel());
     }
 }

@@ -33,7 +33,9 @@ public abstract class Enemy extends Entity {
     protected int currentHealth;
     protected boolean active = true;
 
-    public Enemy(double x, double y, int width, int height, int enemyType) {
+    protected final Rectangle2D.Double attackBox;
+
+    public  Enemy(double x, double y, int width, int height, int enemyType) {
         super(x, y, width, height);
 
         initHitBox(x, y, width, height);
@@ -41,7 +43,11 @@ public abstract class Enemy extends Entity {
         this.enemyType = enemyType;
         maxHealth = Constants.Enemy.getMaxEnemyHealth(enemyType);
         currentHealth = getMaxHealth();
+
+        attackBox = createAttackBox();
     }
+
+    protected abstract Rectangle2D.Double createAttackBox();
 
     protected int getMaxHealth() {
         return maxHealth;
@@ -220,5 +226,54 @@ public abstract class Enemy extends Entity {
 
         return 1;
 
+    }
+
+    public void updateBehaviour(int[][] levelData, Player player) {
+
+        if (firstUpdate) {
+            firstUpdatedCheck(levelData);
+        }
+
+        if (inAir) {
+
+            updateInAir(levelData);
+
+        } else {
+
+            switch (enemyState) {
+                case Constants.Enemy.IDLE -> newState(Constants.Enemy.RUNNING);
+                case Constants.Enemy.RUNNING -> {
+
+                    if (canSeePlayer(levelData, player)) {
+                        moveTowardsPlayer(player);
+
+                        if (isPlayerInAttackRange(player)) {
+                            newState(Constants.Enemy.ATTACK);
+                        }
+                    }
+
+                    move(levelData, player);
+                }
+                case Constants.Enemy.ATTACK -> {
+
+                    if (animationIndex == 1) {
+                        attackChecked = false;
+                    }
+
+                    if (animationIndex >= 2 && animationIndex <= 3 && !attackChecked) {
+
+                        checkPlayerHit(player, attackBox);
+                        attackChecked = true;
+                    }
+                }
+                case Constants.Enemy.HIT -> {
+
+                }
+            }
+        }
+    }
+
+    public Rectangle2D.Double getAttackBox() {
+        return attackBox;
     }
 }

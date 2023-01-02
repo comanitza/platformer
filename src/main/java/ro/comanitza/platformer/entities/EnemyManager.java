@@ -9,25 +9,30 @@ import ro.comanitza.platformer.util.LoadSave;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static ro.comanitza.platformer.util.Constants.Enemy.*;
+import static ro.comanitza.platformer.util.Constants.Game.SCALE;
 
 public class EnemyManager {
 
     private Playing playing;
     private final BufferedImage[][] crabbyImages;
     private final BufferedImage[][] sharkyImages;
+    private final BufferedImage[][] blackPirateImages;
 
     private List<Crabby> crabbies = Collections.emptyList();
     private List<Sharky> sharkies = Collections.emptyList();
+    private List<BlackPirate> blackPirates = Collections.emptyList();
 
     public EnemyManager(Playing playing) {
         this.playing = playing;
 
         crabbyImages = loadCrabbyImages();
         sharkyImages = loadSharkyImages();
+        blackPirateImages = loadBlackPirateImages();
     }
 
     private BufferedImage[][] loadCrabbyImages() {
@@ -39,6 +44,21 @@ public class EnemyManager {
         for (int i = 0; i < imgs.length; i++) {
             for (int j = 0; j < imgs[i].length; j++) {
                 imgs[i][j] = temp.getSubimage(j * Constants.Enemy.CRABBY_WIDTH_DEFAULT, i * Constants.Enemy.CRABBY_HEIGHT_DEFAULT, Constants.Enemy.CRABBY_WIDTH_DEFAULT, Constants.Enemy.CRABBY_HEIGHT_DEFAULT);
+            }
+        }
+
+        return imgs;
+    }
+
+    private BufferedImage[][] loadBlackPirateImages() {
+
+        BufferedImage bufferedImage = LoadSave.getBlackPirate();
+
+        BufferedImage[][] imgs = new BufferedImage[7][8];
+
+        for (int j = 0; j < imgs.length; j++) {
+            for (int i = 0; i < imgs[j].length; i++) {
+                imgs[j][i] = bufferedImage.getSubimage(i * 64, j * 40, 64, 40);
             }
         }
 
@@ -67,8 +87,11 @@ public class EnemyManager {
     }
 
     public void loadSharkies(Level level) {
-
         this.sharkies = level.getSharkies();
+    }
+
+    public void loadBlackPirates(Level level) {
+        this.blackPirates = level.getBlackPirates();
     }
 
     public void update(int[][] levelData) {
@@ -93,6 +116,17 @@ public class EnemyManager {
             }
 
             s.update(levelData, playing.getPlayer());
+
+            isAnyActive = true;
+        }
+
+        for (BlackPirate b: blackPirates) {
+
+            if (!b.isActive()) {
+                continue;
+            }
+
+            b.update(levelData, playing.getPlayer());
 
             isAnyActive = true;
         }
@@ -129,7 +163,11 @@ public class EnemyManager {
                 continue;
             }
 
-            g.drawImage(sharkyImages[s.getEnemyState()][s.getAnimationIndex()], (((int)(s.getHitBox().getX() - SHARKY_X_OFFSET)) - levelOffset + s.flipX()),(int)(s.getHitBox().getY() - SHARKY_Y_OFFSET), SHARKY_WIDTH * s.flipW(), SHARKY_HEIGHT, null);
+            g.drawImage(sharkyImages[s.getEnemyState()][s.getAnimationIndex()],
+                    (((int)(s.getHitBox().getX() - SHARKY_X_OFFSET)) - levelOffset + s.flipX()),
+                    (int)(s.getHitBox().getY() - SHARKY_Y_OFFSET),
+                    SHARKY_WIDTH * s.flipW(),
+                    SHARKY_HEIGHT, null);
 
             /*
              * draw hitbox
@@ -140,6 +178,40 @@ public class EnemyManager {
             g.setColor(Color.GREEN);
             g.drawRect((int)(s.getAttackBox().x) - levelOffset, (int)s.getAttackBox().y, (int)s.getAttackBox().width, (int)s.getAttackBox().height);
         }
+
+        for (BlackPirate b: blackPirates) {
+
+            if (!b.isActive()) {
+                continue;
+            }
+
+            g.drawImage(blackPirateImages[convertToBlackPirate(b.getEnemyState())][b.getAnimationIndex()],
+                    (((int)(b.getHitBox().getX() - BLACK_PIRATE_X_OFFSET)) - levelOffset + b.flipX()),
+                    (int)(b.getHitBox().getY() - BLACK_PIRATE_Y_OFFSET),
+                    (int)(64 * SCALE) * b.flipW(),
+                    (int)(40 * SCALE),
+                    null);
+
+            /*
+             * draw hitbox
+             */
+            g.setColor(Color.MAGENTA);
+            g.drawRect((int)b.getHitBox().x - levelOffset, (int)b.getHitBox().y, (int)b.getHitBox().width, (int)b.getHitBox().height);
+
+            g.setColor(Color.GREEN);
+            g.drawRect((int)(b.getAttackBox().x) - levelOffset, (int)b.getAttackBox().y, (int)b.getAttackBox().width, (int)b.getAttackBox().height);
+        }
+    }
+
+    private int convertToBlackPirate(int enemyState) {
+            return switch (enemyState) {
+                case IDLE -> Constants.Player.IDLE;
+                case RUNNING -> Constants.Player.RUNNING;
+                case ATTACK -> Constants.Player.ATTACK_1;
+                case HIT -> Constants.Player.HIT;
+                case DEAD -> Constants.Player.DEAD;
+                default -> 1;
+            };
     }
 
     public void checkEnemyHit(Rectangle2D.Double playerAttackBox) {
@@ -168,6 +240,20 @@ public class EnemyManager {
                 s.hurt(10);
                 return;
             }
+        }
+
+        for (BlackPirate b: blackPirates) {
+
+            if (!b.isActive()) {
+                continue;
+            }
+
+            if (playerAttackBox.intersects(b.getHitBox())) {
+
+                b.hurt(10);
+                return;
+            }
+
         }
     }
 

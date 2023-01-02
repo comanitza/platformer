@@ -1,5 +1,6 @@
 package ro.comanitza.platformer.levels;
 
+import ro.comanitza.platformer.entities.BlackPirate;
 import ro.comanitza.platformer.entities.Crabby;
 import ro.comanitza.platformer.entities.Sharky;
 import ro.comanitza.platformer.items.Container;
@@ -22,6 +23,7 @@ public class Level {
     private List<Container> containers;
     private List<Spike> spikes;
     private List<Sharky> sharkies;
+    private List<BlackPirate> blackPirates;
 
     private int levelTilesWidth;
     private int maxTilesOffset;
@@ -36,11 +38,16 @@ public class Level {
         this.containers = createContainers();
         this.spikes = createSpikes();
         this.sharkies = createSharkies(image);
+        this.blackPirates = createBlackPirates(image);
 
         levelTilesWidth = image.getWidth();
         maxTilesOffset = levelTilesWidth - Constants.Game.TILES_IN_WIDTH;
         maxTilesOffsetInPixels = Constants.Game.TILES_SIZE * maxTilesOffset;
 
+    }
+
+    private List<BlackPirate> createBlackPirates(BufferedImage image) {
+        return LoadSave.getBlackPirates(image);
     }
 
     public int getSpriteIndex (int x, int y) {
@@ -99,5 +106,9 @@ public class Level {
 
     public List<Spike> getSpikes() {
         return spikes;
+    }
+
+    public List<BlackPirate> getBlackPirates() {
+        return blackPirates;
     }
 }

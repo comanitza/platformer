@@ -71,6 +71,7 @@ public class Playing extends State {
 
         enemyManager.loadCrabs(levelManager.getCurrentLevel());
         enemyManager.loadSharkies(levelManager.getCurrentLevel());
+        enemyManager.loadBlackPirates(levelManager.getCurrentLevel());
 
         itemsManager = new ItemsManager(this);
     }

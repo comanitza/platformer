@@ -1,5 +1,7 @@
 package ro.comanitza.platformer.util;
 
+import static ro.comanitza.platformer.util.Constants.Game.SCALE;
+
 public class Constants {
 
     private Constants() {}
@@ -13,7 +15,6 @@ public class Constants {
         public static final int SPIKE = 4;
 
         public static final int RED_POTION_VALUE = 10;
-        public static final int BLUE_POTION_VALUE = 10;
 
         public static final int CONTAINER_WIDTH_DEFAULT = 40;
         public static final int CONTAINER_HEIGHT_DEFAULT = 30;
@@ -43,6 +44,7 @@ public class Constants {
 
         public static final int CRABBY = 0;
         public static final int SHARKY = 1;
+        public static final int BLACK_PIRATE = 2;
 
         public static final int IDLE = 0;
         public static final int RUNNING = 1;
@@ -68,6 +70,8 @@ public class Constants {
         public static final int SHARKY_X_OFFSET = (int)(8 * Game.SCALE);
         public static final int SHARKY_Y_OFFSET = (int)(6 * Game.SCALE);
 
+        public static int BLACK_PIRATE_X_OFFSET = (int)(21d * SCALE);
+        public static int BLACK_PIRATE_Y_OFFSET = (int)(4d * SCALE);
 
         public static int getMaxEnemyHealth (int enemyType) {
 
@@ -82,6 +86,7 @@ public class Constants {
             return switch (enemyType) {
                 case CRABBY -> 15;
                 case SHARKY -> 15;
+                case BLACK_PIRATE -> 20;
                 default -> 5;
             };
         }
@@ -100,13 +105,22 @@ public class Constants {
                         default -> 1;
                     };
                 case CRABBY:
-                default:
                     return switch (enemyAction) {
                         case IDLE -> 9;
                         case RUNNING -> 6;
                         case ATTACK -> 7;
                         case HIT -> 4;
                         case DEAD -> 5;
+                        default -> 1;
+                    };
+                case BLACK_PIRATE:
+                default:
+                    return switch (enemyAction) {
+                        case IDLE -> 5;
+                        case RUNNING -> 6;
+                        case ATTACK -> 3;
+                        case HIT -> 4;
+                        case DEAD -> 8;
                         default -> 1;
                     };
             }
