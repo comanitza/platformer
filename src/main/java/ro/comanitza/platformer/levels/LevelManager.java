@@ -24,8 +24,6 @@ public class LevelManager {
 
         outsideLevelAtlas = importOutsideLevelSprites(); //
 
-//        levelOne = new Level(LoadSave.getLevelData("/level_one_data_long.png"));
-
         for(BufferedImage levelImage: LoadSave.getAllLevels()) {
             levels.add(new Level(levelImage));
         }

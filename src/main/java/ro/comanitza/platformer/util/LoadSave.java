@@ -281,7 +281,7 @@ public class LoadSave {
     }
 
     public static BufferedImage getBlackPirate() {
-        return getAtlas("/black_pirate2.png");
+        return getAtlas("/black_pirate.png");
     }
 
     public static List<BlackPirate> getBlackPirates(BufferedImage img) {

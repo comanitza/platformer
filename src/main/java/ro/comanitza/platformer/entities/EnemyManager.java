@@ -266,5 +266,9 @@ public class EnemyManager {
         for (Sharky s: sharkies) {
             s.reset();
         }
+
+        for (BlackPirate b: blackPirates) {
+            b.reset();
+        }
     }
 }

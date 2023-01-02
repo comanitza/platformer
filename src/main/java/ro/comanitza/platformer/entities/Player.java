@@ -250,7 +250,7 @@ public class Player extends Entity {
 
         moving = false;
 
-        if (!left && !right && !inAir) {
+        if (!left && !right && !inAir && !jump) {
             return;
         }
 

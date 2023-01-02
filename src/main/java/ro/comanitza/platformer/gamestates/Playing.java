@@ -31,13 +31,13 @@ public class Playing extends State {
     private int levelOffset;
     private int leftBorder = (int)(0.2 * GAME_WIDTH);
     private int rightBorder = (int)(0.8 * GAME_WIDTH);
-    private int maxTilesOffsetInPixels;
+//    private int maxTilesOffsetInPixels;
 
     private final BufferedImage backGroundImage = LoadSave.getPlayingBackground();
     private final BufferedImage bigCloudsImage = LoadSave.getBigClouds();
     private final BufferedImage smallCloudImage = LoadSave.getSmallClouds();
 
-    private final int[] smallCloudsYPositions = new int[8];
+    private final int[] smallCloudsYPositions = new int[8]; // remove or change these
     private boolean gameOver;
 
     private final GameOverOverlay gameOverOverlay;
@@ -67,7 +67,7 @@ public class Playing extends State {
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
 
-        maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
+//        maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
 
         enemyManager.loadCrabs(levelManager.getCurrentLevel());
         enemyManager.loadSharkies(levelManager.getCurrentLevel());
@@ -108,8 +108,8 @@ public class Playing extends State {
             levelOffset += diff - leftBorder;
         }
 
-        if (levelOffset > maxTilesOffsetInPixels) {
-            levelOffset = maxTilesOffsetInPixels;
+        if (levelOffset > levelManager.getCurrentLevel().getLevelOffset()) {
+            levelOffset = levelManager.getCurrentLevel().getLevelOffset();
         }
 
         if (levelOffset < 0) {
