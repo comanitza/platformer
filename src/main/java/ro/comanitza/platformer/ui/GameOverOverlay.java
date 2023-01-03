@@ -21,8 +21,9 @@ public class GameOverOverlay {
         g.fillRect(0, 0, Constants.Game.GAME_WIDTH, Constants.Game.GAME_HEIGHT);
 
         g.setColor(Color.WHITE);
-        g.drawString("Game Over", Constants.Game.GAME_WIDTH / 2, 160);
-        g.drawString("Press ESC to get to menu", Constants.Game.GAME_WIDTH / 2, 320);
+        g.setFont(new Font("TimesRoman", Font.BOLD, 120));
+        g.drawString("Game Over", (int)(Constants.Game.GAME_WIDTH * 0.35), 320);
+        g.drawString("Press ESC to get to menu", (int)(Constants.Game.GAME_WIDTH * 0.08), 480);
     }
 
     public void keyPressed(KeyEvent e) {

@@ -6,6 +6,7 @@ import ro.comanitza.platformer.entities.Player;
 import ro.comanitza.platformer.items.ItemsManager;
 import ro.comanitza.platformer.levels.LevelManager;
 import ro.comanitza.platformer.ui.GameOverOverlay;
+import ro.comanitza.platformer.ui.InfoOverlay;
 import ro.comanitza.platformer.ui.LevelCompletedOverlay;
 import ro.comanitza.platformer.ui.PausedOverlay;
 import ro.comanitza.platformer.util.Constants;
@@ -42,10 +43,12 @@ public class Playing extends State {
 
     private final GameOverOverlay gameOverOverlay;
     private final LevelCompletedOverlay levelCompletedOverlay;
+    private final InfoOverlay infoOverlay;
 
     private boolean levelCompleted;
 
     private final ItemsManager itemsManager;
+    private long infoOverLayStart = 0;
 
     public Playing(final Game game) {
         super(game);
@@ -57,6 +60,7 @@ public class Playing extends State {
         player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
 
         pausedOverlay = new PausedOverlay(this);
+        infoOverlay = new InfoOverlay(this);
 
         Random rand = new Random();
 
@@ -134,6 +138,20 @@ public class Playing extends State {
         player.render(g, levelOffset);
         enemyManager.render(g, levelOffset);
         itemsManager.render(g, levelOffset);
+
+
+        if (infoOverLayStart == 0) {
+            infoOverLayStart = System.currentTimeMillis();
+        }
+
+        if (infoOverLayStart + 5000 >= System.currentTimeMillis()) {
+            infoOverlay.render(g);
+        }
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("TimesRoman", Font.BOLD, 20));
+        g.drawString("A and D to move, J to jump and K to attack. Kill all the enemies to complete the level. | Level " + (levelManager.getCurrentLevelIndex() + 1), 20, GAME_HEIGHT - 40);
+        g.drawString("Crazy Pirate Adventures by Stefan Comanita, https://github.com/comanitza/platformer", 20, GAME_HEIGHT - 20);
 
         if (paused) {
             g.setColor(new Color(0, 0, 0, 120));

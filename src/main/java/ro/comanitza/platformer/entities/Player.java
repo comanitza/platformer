@@ -61,8 +61,8 @@ public class Player extends Entity {
     private final int healthBarXStart = (int) (34 * SCALE);
     private final int healthBarYStart = (int) (14 * SCALE);
 
-    private final int maxHealth = 100;
-    private int currentHealth = 60;
+    private final int maxHealth = 60;
+    private int currentHealth = maxHealth;
     private int healthWidth = healthBarWidth;
 
     private int flipX = 0;
@@ -83,7 +83,7 @@ public class Player extends Entity {
 
         statusBarImage = loadStatusBarImage();
 
-        attackBox = new Rectangle2D.Double(x, y, (int)(20 * SCALE), (int)(20 * SCALE));
+        attackBox = new Rectangle2D.Double(x, y, (int)(40 * SCALE), (int)(20 * SCALE));
 
         this.playing = playing;
     }
@@ -140,7 +140,7 @@ public class Player extends Entity {
     private void updateAttackBox() {
 
         if (right) {
-            attackBox.x = hitBox.x + hitBox.width + (int)(SCALE * 10);
+            attackBox.x = hitBox.x + (hitBox.width * 0.25) + (int)(SCALE * 10);
         } else if (left) {
             attackBox.x = hitBox.x - hitBox.width - (int)(SCALE * 10);
         }
