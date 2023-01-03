@@ -151,7 +151,7 @@ public class Playing extends State {
         g.setColor(Color.WHITE);
         g.setFont(new Font("TimesRoman", Font.BOLD, 20));
         g.drawString("A and D to move, J to jump and K to attack. Kill all the enemies to complete the level. | Level " + (levelManager.getCurrentLevelIndex() + 1), 20, GAME_HEIGHT - 40);
-        g.drawString("Crazy Pirate Adventures by Stefan Comanita, https://github.com/comanitza/platformer", 20, GAME_HEIGHT - 20);
+        g.drawString("Crazy Pirate Adventures by Stefan Comanita, github.com/comanitza, inspired by github.com/KaarinGaming ", 20, GAME_HEIGHT - 20);
 
         if (paused) {
             g.setColor(new Color(0, 0, 0, 120));

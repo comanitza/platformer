@@ -21,6 +21,6 @@ public class InfoOverlay {
         g.setFont(new Font("TimesRoman", Font.BOLD, 60));
         g.drawString("A and D to move", (int)(Constants.Game.GAME_WIDTH * 0.2), 280);
         g.drawString("J to jump, K to attack", (int)(Constants.Game.GAME_WIDTH * 0.2), 360);
-        g.drawString("Kill all enemies to complete level", (int)(Constants.Game.GAME_WIDTH * 0.2), 440);
+        g.drawString("Kill all the enemies to complete the level.", (int)(Constants.Game.GAME_WIDTH * 0.2), 440);
     }
 }
