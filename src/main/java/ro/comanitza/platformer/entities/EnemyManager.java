@@ -146,15 +146,6 @@ public class EnemyManager {
             }
 
             g.drawImage(crabbyImages[c.getEnemyState()][c.getAnimationIndex()], ((int)(c.hitBox.x - CRRABY_X_OFFSET)) - levelOffset + c.flipX(), (int)(c.hitBox.y - CRRABY_Y_OFFSET), Constants.Enemy.CRABBY_WIDTH * c.flipW(), Constants.Enemy.CRABBY_HEIGHT, null);
-
-            /*
-             * draw hitbox
-             */
-            g.setColor(Color.MAGENTA);
-            g.drawRect((int)c.getHitBox().x - levelOffset, (int)c.getHitBox().y, (int)c.getHitBox().width, (int)c.getHitBox().height);
-
-            g.setColor(Color.GREEN);
-            g.drawRect((int)(c.getAttackBox().x) - levelOffset, (int)c.getAttackBox().y, (int)c.getAttackBox().width, (int)c.getAttackBox().height);
         }
 
         for (Sharky s: sharkies) {
@@ -168,15 +159,6 @@ public class EnemyManager {
                     (int)(s.getHitBox().getY() - SHARKY_Y_OFFSET),
                     SHARKY_WIDTH * s.flipW(),
                     SHARKY_HEIGHT, null);
-
-            /*
-             * draw hitbox
-             */
-            g.setColor(Color.MAGENTA);
-            g.drawRect((int)s.getHitBox().x - levelOffset, (int)s.getHitBox().y, (int)s.getHitBox().width, (int)s.getHitBox().height);
-
-            g.setColor(Color.GREEN);
-            g.drawRect((int)(s.getAttackBox().x) - levelOffset, (int)s.getAttackBox().y, (int)s.getAttackBox().width, (int)s.getAttackBox().height);
         }
 
         for (BlackPirate b: blackPirates) {
@@ -191,15 +173,6 @@ public class EnemyManager {
                     (int)(64 * SCALE) * b.flipW(),
                     (int)(40 * SCALE),
                     null);
-
-            /*
-             * draw hitbox
-             */
-            g.setColor(Color.MAGENTA);
-            g.drawRect((int)b.getHitBox().x - levelOffset, (int)b.getHitBox().y, (int)b.getHitBox().width, (int)b.getHitBox().height);
-
-            g.setColor(Color.GREEN);
-            g.drawRect((int)(b.getAttackBox().x) - levelOffset, (int)b.getAttackBox().y, (int)b.getAttackBox().width, (int)b.getAttackBox().height);
         }
     }
 

@@ -1,5 +1,8 @@
 package ro.comanitza.platformer.core;
 
+import ro.comanitza.platformer.util.LoadSave;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
@@ -18,6 +21,7 @@ public class GameWindow {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setIconImage(LoadSave.getMenuBackgroundImage());
 
         frame.addWindowFocusListener(new WindowFocusListener() {
             @Override

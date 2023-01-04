@@ -303,6 +303,9 @@ public class LoadSave {
         }
 
         return blackPirates;
+    }
 
+    public static BufferedImage getMenuBackgroundImage() {
+        return getAtlas("/menu-bg.png");
     }
 }

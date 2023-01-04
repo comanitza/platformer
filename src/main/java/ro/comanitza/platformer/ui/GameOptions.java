@@ -23,6 +23,8 @@ public class GameOptions extends State {
 
     private final UrmButton menuButton;
 
+    private final BufferedImage backGroundImage;
+
     public GameOptions(Game game) {
         super(game);
 
@@ -36,6 +38,8 @@ public class GameOptions extends State {
         bgY = (int)(33 * Constants.Game.SCALE);
 
         menuButton = new UrmButton((int)(387 * Constants.Game.SCALE), (int)(325 * Constants.Game.SCALE), Constants.UI.UrmButtons.URM_SIZE, Constants.UI.UrmButtons.URM_SIZE, 2);
+
+        backGroundImage = LoadSave.getMenuBackgroundImage();
     }
 
     @Override
@@ -47,6 +51,8 @@ public class GameOptions extends State {
 
     @Override
     public void draw(Graphics g) {
+
+        g.drawImage(backGroundImage, 0, 0, Constants.Game.GAME_WIDTH, Constants.Game.GAME_HEIGHT, null);
 
         g.drawImage(optionsBackgroundImage, bgX, bgY, bgW, bgH, null);
         menuButton.render(g);

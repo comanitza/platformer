@@ -14,6 +14,7 @@ public class Menu extends State {
 
     private MenuButton[] buttons = new MenuButton[3];
     private BufferedImage menuBackground;
+    private BufferedImage backGroundImage;
 
     private int menuX;
     private int menuY;
@@ -41,6 +42,8 @@ public class Menu extends State {
         menuHeight = (int) (menuBackground.getHeight() * Constants.Game.SCALE);
         menuX = (Constants.Game.GAME_WIDTH /2) - (menuWidth / 2);
         menuY = (int)(45 * Constants.Game.SCALE);
+
+        backGroundImage = LoadSave.getMenuBackgroundImage();
     }
 
     @Override
@@ -54,8 +57,7 @@ public class Menu extends State {
     @Override
     public void draw(Graphics g) {
 
-//        g.setColor(Color.BLACK);
-//        g.drawString("MENU", Constants.Game.GAME_HEIGHT / 2, 200);
+        g.drawImage(backGroundImage, 0, 0, Constants.Game.GAME_WIDTH, Constants.Game.GAME_HEIGHT, null);
 
         g.drawImage(menuBackground, menuX, menuY, menuWidth, menuHeight, null);
 

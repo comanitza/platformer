@@ -171,9 +171,7 @@ public class Player extends Entity {
     public void render(Graphics g, int levelOffset) {
 
         g.drawImage(animations[playerAction][animationIndex], (int)(hitBox.x - xDrawOffset) - levelOffset + flipX, (int)(hitBox.y - yDrawOffset), width * flipW, height, null);
-        drawHitBox(g, levelOffset);
         renderUi(g);
-        drawAttackBox(g, levelOffset);
     }
 
     private void drawAttackBox(Graphics g, int levelOffset) {
