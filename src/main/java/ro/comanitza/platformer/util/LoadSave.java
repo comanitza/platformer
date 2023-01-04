@@ -179,7 +179,7 @@ public class LoadSave {
     }
 
     public static BufferedImage getStatusBar() {
-        return getAtlas("/health_power_bar.png");
+        return getAtlas("/health_bar.png");
     }
 
     public static BufferedImage getLevelCompletedImage() {
