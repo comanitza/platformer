@@ -11,11 +11,13 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static ro.comanitza.platformer.util.Constants.Game.*;
@@ -188,28 +190,14 @@ public class LoadSave {
 
     public static BufferedImage[] getAllLevels() {
 
-        URL levelsUrl = LoadSave.class.getResource("/levels");
+        List<String> levelNames = Arrays.asList("1.png", "2.png", "3.png", "4.png");
 
-        File folder = null;
-
-        try {
-            folder = new File(levelsUrl.toURI());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        File[] files = folder.listFiles();
-
-        Arrays.sort(files);
-
-        BufferedImage[] levels = new BufferedImage[files.length];
+        BufferedImage[] levels = new BufferedImage[levelNames.size()];
 
         for(int i = 0; i < levels.length; i++) {
 
-            File f = files[i];
-
             try {
-                levels[i] = ImageIO.read(f);
+                levels[i] = ImageIO.read(LoadSave.class.getResourceAsStream("/levels/" + levelNames.get(i)));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
