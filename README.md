@@ -1,8 +1,13 @@
 # Crazy Pirate Adventures - Platformer
+
+![Crazy Pirate Adventure](https://i.imgur.com/T8oENjy.mp4)
 ## Overview
 Crazy Pirate Adventures is a platformer 2D game, it was heavily inspired by the tutorials from https://www.kaaringaming.com/tutorials and https://github.com/KaarinGaming.
 
 All the code was type by me, this is not a fork.
+## How to run
+Run the provided jar, using the command java -jar <jar-name.jar>. Please note that the current build requires Java version 14 or latter. 
+
 ## Game play
 You play as a crazy pirate adventurer and you must defeat all your enemies before advancing to the next level.
 
