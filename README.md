@@ -1,8 +1,4 @@
 # Crazy Pirate Adventures - Platformer
-
-
-<img src="http://www.comanitza.ro/static/stefan-comanita-pic.jpg" width="350" title="hover text">
-
 ## Overview
 Crazy Pirate Adventures is a platformer 2D game, it was heavily inspired by the tutorials from https://www.kaaringaming.com/tutorials and https://github.com/KaarinGaming.
 
