@@ -32,13 +32,10 @@ public class Playing extends State {
     private int levelOffset;
     private int leftBorder = (int)(0.2 * GAME_WIDTH);
     private int rightBorder = (int)(0.8 * GAME_WIDTH);
-//    private int maxTilesOffsetInPixels;
 
     private final BufferedImage backGroundImage = LoadSave.getPlayingBackground();
     private final BufferedImage bigCloudsImage = LoadSave.getBigClouds();
-    private final BufferedImage smallCloudImage = LoadSave.getSmallClouds();
 
-    private final int[] smallCloudsYPositions = new int[8]; // remove or change these
     private boolean gameOver;
 
     private final GameOverOverlay gameOverOverlay;
@@ -62,16 +59,8 @@ public class Playing extends State {
         pausedOverlay = new PausedOverlay(this);
         infoOverlay = new InfoOverlay(this);
 
-        Random rand = new Random();
-
-        for (int i = 0; i < smallCloudsYPositions.length; i++) {
-            smallCloudsYPositions[i] = (int)(80 * Constants.Game.SCALE + rand.nextInt((int)(140 * SCALE)));
-        }
-
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
-
-//        maxTilesOffsetInPixels = levelManager.getCurrentLevel().getLevelOffset();
 
         enemyManager.loadCrabs(levelManager.getCurrentLevel());
         enemyManager.loadSharkies(levelManager.getCurrentLevel());
@@ -126,12 +115,8 @@ public class Playing extends State {
 
         g.drawImage(backGroundImage, 0, 0, GAME_WIDTH, GAME_HEIGHT, null);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 8; i++) {
             g.drawImage(bigCloudsImage, i * Constants.Environment.BIG_CLOUD_WIDTH - (int)(levelOffset * 0.4), (int) (204 * SCALE), Constants.Environment.BIG_CLOUD_WIDTH, Constants.Environment.BIG_CLOUD_HEIGHT, null);
-        }
-
-        for (int i = 0; i < smallCloudsYPositions.length; i++) {
-            g.drawImage(smallCloudImage, Constants.Environment.SMALL_CLOUD_WIDTH * 4 * i - (int)(levelOffset * 0.9), smallCloudsYPositions[i], Constants.Environment.SMALL_CLOUD_WIDTH, Constants.Environment.SMALL_CLOUD_HEIGHT, null);
         }
 
         levelManager.render(g, levelOffset);
